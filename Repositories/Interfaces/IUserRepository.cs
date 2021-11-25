@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Taskmanager.Data.Entities;
 
 namespace Taskmanager.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        public User GetOneById(int id);
-        public List<User> GetAll();
-        public void Add(User user);
-        public void Update(User user);
-        public void Delete(User user);
+        public Task<User> GetOneById(int id);
+        public Task<List<User>> GetAll();
+        public Task Add(User user);
+        public Task Update(User user);
+        public Task Delete(User user);
     }
 }

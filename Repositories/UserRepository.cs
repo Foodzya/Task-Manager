@@ -1,32 +1,45 @@
 using System.Collections.Generic;
 using Taskmanager.Repositories.Interfaces;
 using Taskmanager.Data.Entities;
+using Taskmanager.Data.Context;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace Repositories
+namespace Taskmanager.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public void Add(User user)
+        private TaskManagerContext _context;
+
+        public UserRepository(TaskManagerContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
         }
 
-        public void Delete(User user)
+        public async Task Add(User user)
         {
-            throw new System.NotImplementedException();
+            await _context.Users.AddAsync(user);
         }
 
-        public List<User> GetAll()
+        public async Task Delete(User user)
         {
-            throw new System.NotImplementedException();
+            _context.Users.Remove(user);
+            
+            await _context.SaveChangesAsync();
         }
 
-        public User GetOneById(int id)
+        public async Task<List<User>> GetAll()
         {
-            throw new System.NotImplementedException();
+            return await _context.Users.ToListAsync();
         }
 
-        public void Update(User user)
+        public async Task<User> GetOneById(int id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public Task Update(User user)
         {
             throw new System.NotImplementedException();
         }

@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Taskmanager.Data.Context;
+using Taskmanager.Repositories;
+using Taskmanager.Repositories.Interfaces;
 
 namespace TodoList
 {
@@ -21,6 +23,8 @@ namespace TodoList
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TaskManagerContext>(opt => opt.UseSqlite("name=ConnectionStrings:TodolistDatabase"));
+
+            services.AddTransient<IUserRepository, UserRepository>();
 
             services.AddControllers();
         }
