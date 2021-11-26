@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Taskmanager.Data.Entities;
 using Taskmanager.Repositories;
@@ -16,10 +17,12 @@ namespace Taskmanager.Controllers
             _userRepo = userRepo;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<User> GetById([FromRoute] int id)
+        [HttpPost("{listId}")]
+        public async Task<ActionResult> AddNewTodolistToUser([FromRoute] int listId)
         {
-            return _userRepo.GetOneById(1);
+            await _userRepo.AddNewTodolist(1);
+
+            return Ok();
         }
     }
 }

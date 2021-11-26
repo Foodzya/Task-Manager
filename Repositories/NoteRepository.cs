@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Taskmanager.Data.Context;
 using Taskmanager.Data.Entities;
 using Taskmanager.Repositories.Interfaces;
 
@@ -6,27 +9,38 @@ namespace Taskmanager.Repositories
 {
     public class NoteRepository : INoteRepository
     {
-        public void Add(Note note)
+        private readonly TaskManagerContext _context;
+
+        public NoteRepository(TaskManagerContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
         }
 
-        public void Delete(Note note)
+        public async Task Add(Note note)
         {
-            throw new System.NotImplementedException();
+            await _context.Notes.AddAsync(note);
+
+            await _context.SaveChangesAsync();
         }
 
-        public List<Note> GetAll()
+        public async Task Delete(Note note)
         {
-            throw new System.NotImplementedException();
+            _context.Notes.Remove(note);
+
+            await _context.SaveChangesAsync();
         }
 
-        public Note GetOneById(int id)
+        public async Task<List<Note>> GetAll()
         {
-            throw new System.NotImplementedException();
+            return await _context.Notes.ToListAsync();
         }
 
-        public void Update(Note note)
+        public async Task<Note> GetOneById(int id)
+        {
+            return await _context.Notes.FirstAsync(n => n.Id == id); 
+        }
+
+        public Task Update(Note note)
         {
             throw new System.NotImplementedException();
         }

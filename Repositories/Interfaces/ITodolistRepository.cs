@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Taskmanager.Data.Entities;
 
 namespace Taskmanager.Repositories.Interfaces
 {
     public interface ITodolistRepository
     {
-        public Todolist GetOneById(int id);
-        public List<Todolist> GetAll();
-        public void Add(Todolist todolist);
-        public void Update(Todolist todolist);
-        public void Delete(Todolist todolist);
+        public Task<Todolist> GetOneById(int id);
+        public Task<List<Todolist>> GetAll();
+        public Task Add(Todolist todolist);
+        public Task Update(Todolist todolist);
+        public Task Delete(Todolist todolist);
     }
 }

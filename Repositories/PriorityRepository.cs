@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Taskmanager.Data.Context;
 using Taskmanager.Data.Entities;
 using Taskmanager.Repositories.Interfaces;
 
@@ -6,14 +9,21 @@ namespace Taskmanager.Repositories
 {
     public class PriorityRepository : IPriorityRepository
     {
-        public List<Priority> GetAll()
+        private readonly TaskManagerContext _context;
+
+        public PriorityRepository(TaskManagerContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
         }
 
-        public Priority GetOneById(int id)
+        public async Task<List<Priority>> GetAll()
         {
-            throw new System.NotImplementedException();
+            return await _context.Priorities.ToListAsync();
+        }
+
+        public async Task<Priority> GetOneById(int id)
+        {
+            return await _context.Priorities.FirstAsync(p => p.Id == id);
         }
     }
 }

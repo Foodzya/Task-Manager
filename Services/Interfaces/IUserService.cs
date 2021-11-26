@@ -2,15 +2,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Taskmanager.Data.Entities;
 
-namespace Taskmanager.Repositories.Interfaces
+namespace Taskmanager.Services.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserService
     {
         public Task<User> GetOneByIdAsync(int id);
         public Task<List<User>> GetAllAsync();
         public Task AddAsync(User user);
         public Task UpdateAsync(User user);
-        public Task DeleteAsync(User user);
-        public Task AddNewTodolist(int listId);
+        public Task AddNewTodolist(Todolist list);
     }
 }

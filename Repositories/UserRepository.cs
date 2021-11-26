@@ -5,6 +5,7 @@ using Taskmanager.Data.Context;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Taskmanager.Repositories
 {
@@ -17,29 +18,36 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task Add(User user)
+        public async Task AddAsync(User user)
         {
             await _context.Users.AddAsync(user);
+
+            await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(User user)
+        public async Task AddNewTodolist(int listId)
+        {
+            
+        }
+
+        public async Task DeleteAsync(User user)
         {
             _context.Users.Remove(user);
             
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<User>> GetAll()
+        public async Task<List<User>> GetAllAsync()
         {
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> GetOneById(int id)
+        public async Task<User> GetOneByIdAsync(int id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public Task Update(User user)
+        public Task UpdateAsync(User user)
         {
             throw new System.NotImplementedException();
         }

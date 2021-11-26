@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Taskmanager.Data.Context;
 using Taskmanager.Data.Entities;
 using Taskmanager.Repositories.Interfaces;
 
@@ -6,27 +9,38 @@ namespace Taskmanager.Repositories
 {
     public class TodoitemRepository : ITodoitemRepository
     {
-        public void Add(Todoitem todoitem)
+        private readonly TaskManagerContext _context;
+
+        public TodoitemRepository(TaskManagerContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
         }
 
-        public void Delete(Todoitem todoitem)
+        public async Task Add(Todoitem todoitem)
         {
-            throw new System.NotImplementedException();
+            await _context.Todoitems.AddAsync(todoitem);
+
+            await _context.SaveChangesAsync();
         }
 
-        public List<Todoitem> GetAll()
+        public async Task Delete(Todoitem todoitem)
         {
-            throw new System.NotImplementedException();
+            _context.Todoitems.Remove(todoitem);
+
+            await _context.SaveChangesAsync();
         }
 
-        public Todoitem GetOneById(int id)
+        public async Task<List<Todoitem>> GetAll()
         {
-            throw new System.NotImplementedException();
+            return await _context.Todoitems.ToListAsync();
         }
 
-        public void Update(Todoitem todoitem)
+        public Task<Todoitem> GetOneById(int id)
+        {
+            return _context.Todoitems.FirstAsync(t => t.Id == id);
+        }
+
+        public Task Update(Todoitem todoitem)
         {
             throw new System.NotImplementedException();
         }

@@ -1,4 +1,0 @@
-namespace Taskmanager.Services.Interfaces
-{
-    
-}
