@@ -17,33 +17,42 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task Add(Todolist todolist)
+        public async Task AddAsync(Todolist todolist)
         {
             await _context.Todolists.AddAsync(todolist);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(Todolist todolist)
+        public async Task DeleteAsync(Todolist todolist)
         {
             _context.Todolists.Remove(todolist);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Todolist>> GetAll()
+        public async Task<List<Todolist>> GetAllAsync()
         {
             return await _context.Todolists.ToListAsync();
         }
 
-        public async Task<Todolist> GetOneById(int id)
+        public async Task<Todolist> GetOneByIdAsync(int listId, int userId)
         {
-            return await _context.Todolists.FirstAsync(t => t.Id == id);
+            Todolist list = await _context.Todolists.Where(list => list.Userid == userId).SingleAsync(list => list.Id == listId);
+
+            return await _context.Todolists.FirstAsync(t => t.Id == listId);
         }
 
-        public Task Update(Todolist todolist)
+        public async Task UpdateAsync(int idOfUpdatableTodolist, Todolist updatedTodolist)
         {
-            throw new System.NotImplementedException();
+            Todolist todolistToBeUpdated = await _context.Todolists.FirstOrDefaultAsync(t => t.Id == idOfUpdatableTodolist);
+
+            if (todolistToBeUpdated != null)
+            {
+                todolistToBeUpdated.Title = updatedTodolist.Title;
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

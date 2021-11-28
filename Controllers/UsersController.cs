@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Taskmanager.Controllers.InputModels;
+using Taskmanager.Controllers.ViewModels;
 using Taskmanager.Data.Entities;
-using Taskmanager.Repositories;
-using Taskmanager.Repositories.Interfaces;
+using Taskmanager.Services.Interfaces;
 
 namespace Taskmanager.Controllers
 {
@@ -10,17 +11,39 @@ namespace Taskmanager.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userRepo;
+        private readonly IUserService _userService;
 
-        public UsersController(IUserRepository userRepo)
+        public UsersController(IUserService userService)
         {
-            _userRepo = userRepo;
+            _userService = userService;
         }
 
-        [HttpPost("{listId}")]
-        public async Task<ActionResult> AddNewTodolistToUser([FromRoute] int listId)
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<UserViewModel>> GetOneByIdAsync([FromRoute] int userId)
         {
-            await _userRepo.AddNewTodolist(1);
+            User searchedUser = await _userService.GetOneByIdAsync(userId);
+
+            UserViewModel userToBeDisplayed = UserViewModel.MapUser(searchedUser);
+
+            return Ok(userToBeDisplayed);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddNewUserAsync([FromBody] UserInputModel userInputModel)
+        {
+            User newUser = UserInputModel.MapUser(userInputModel);
+
+            await _userService.AddAsync(newUser);
+            
+            return Ok();
+        }
+
+        [HttpPut("{userId}")]
+        public async Task<ActionResult> UpdateUser([FromRoute] int userId, [FromBody] UserInputModel inputModel)
+        {
+            User mappedUser = UserInputModel.MapUser(inputModel);
+
+            await _userService.UpdateAsync(userId, mappedUser);
 
             return Ok();
         }

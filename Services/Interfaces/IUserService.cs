@@ -9,7 +9,6 @@ namespace Taskmanager.Services.Interfaces
         public Task<User> GetOneByIdAsync(int id);
         public Task<List<User>> GetAllAsync();
         public Task AddAsync(User user);
-        public Task UpdateAsync(User user);
-        public Task AddNewTodolist(Todolist list);
+        public Task UpdateAsync(int idOfUpdatableUser, User updatedUser);
     }
 }

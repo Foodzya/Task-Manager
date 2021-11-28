@@ -16,12 +16,12 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task<List<Priority>> GetAll()
+        public async Task<List<Priority>> GetAllAsync()
         {
             return await _context.Priorities.ToListAsync();
         }
 
-        public async Task<Priority> GetOneById(int id)
+        public async Task<Priority> GetOneByIdAsync(int id)
         {
             return await _context.Priorities.FirstAsync(p => p.Id == id);
         }

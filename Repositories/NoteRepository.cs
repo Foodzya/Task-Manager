@@ -16,33 +16,40 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task Add(Note note)
+        public async Task AddAsync(Note note)
         {
             await _context.Notes.AddAsync(note);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(Note note)
+        public async Task DeleteAsync(Note note)
         {
             _context.Notes.Remove(note);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Note>> GetAll()
+        public async Task<List<Note>> GetAllAsync()
         {
             return await _context.Notes.ToListAsync();
         }
 
-        public async Task<Note> GetOneById(int id)
+        public async Task<Note> GetOneByIdAsync(int id)
         {
             return await _context.Notes.FirstAsync(n => n.Id == id); 
         }
 
-        public Task Update(Note note)
+        public async Task UpdateAsync(int idOfUpdatableNote, Note updatedNote)
         {
-            throw new System.NotImplementedException();
+            Note updatableNote = await _context.Notes.FirstOrDefaultAsync(n => n.Id.Equals(idOfUpdatableNote));
+
+            if(updatableNote != null)
+            {
+                updatableNote.Body = updatedNote.Body;
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

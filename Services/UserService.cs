@@ -20,11 +20,6 @@ namespace Taskmanager.Services
             await _userRepo.AddAsync(user);
         }
 
-        public Task AddNewTodolist(Todolist list)
-        {
-            return null;
-        }
-
         public async Task<List<User>> GetAllAsync()
         {
             return await _userRepo.GetAllAsync();
@@ -35,9 +30,9 @@ namespace Taskmanager.Services
             return await _userRepo.GetOneByIdAsync(id);
         }
 
-        public async Task UpdateAsync(User user)
+        public async Task UpdateAsync(int idOfUpdatableUser, User updatedUser)
         {
-            throw new System.NotImplementedException();
+            await _userRepo.UpdateAsync(idOfUpdatableUser, updatedUser);
         }
     }
 }

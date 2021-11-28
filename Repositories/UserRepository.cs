@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using Taskmanager.Repositories.Interfaces;
 using Taskmanager.Data.Entities;
 using Taskmanager.Data.Context;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Taskmanager.Repositories
 {
@@ -25,11 +23,6 @@ namespace Taskmanager.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddNewTodolist(int listId)
-        {
-            
-        }
-
         public async Task DeleteAsync(User user)
         {
             _context.Users.Remove(user);
@@ -47,9 +40,17 @@ namespace Taskmanager.Repositories
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public Task UpdateAsync(User user)
+        public async Task UpdateAsync(int idOfUpdatableUser, User updatedUser)
         {
-            throw new System.NotImplementedException();
+            User updatableUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == idOfUpdatableUser);
+
+            if(updatableUser != null)
+            {
+                updatableUser.Username = updatedUser.Username;
+                updatableUser.Password = updatedUser.Password;
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

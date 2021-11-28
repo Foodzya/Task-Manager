@@ -6,10 +6,10 @@ namespace Taskmanager.Repositories.Interfaces
 {
     public interface INoteRepository
     {
-        public Task<Note> GetOneById(int id);
-        public Task<List<Note>> GetAll();
-        public Task Add(Note note);
-        public Task Update(Note note);
-        public Task Delete(Note note);
+        public Task<Note> GetOneByIdAsync(int id);
+        public Task<List<Note>> GetAllAsync();
+        public Task AddAsync(Note note);
+        public Task UpdateAsync(int idOfUpdatableNote, Note updatedNote);
+        public Task DeleteAsync(Note note);
     }
 }
