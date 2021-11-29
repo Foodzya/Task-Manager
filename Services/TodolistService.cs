@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,17 +24,19 @@ namespace Taskmanager.Services
             await _todolistRepo.AddAsync(todolist);
         }
 
-        public async Task DeleteAsync(Todolist todolist)
+        public async Task DeleteAsync(int userId, int todolistId)
         {
-            if(todolist != null) 
+            if (GetOneByIdAsync(todolistId, userId) != null)
             {
-                await _todolistRepo.DeleteAsync(todolist);
+                await _todolistRepo.DeleteAsync(userId, todolistId);
             }
+
+            throw new Exception("Todolist not found");
         }
 
-        public async Task<List<Todolist>> GetAllAsync()
+        public async Task<List<Todolist>> GetAllAsync(int userId)
         {
-            return await _todolistRepo.GetAllAsync();
+            return await _todolistRepo.GetAllAsync(userId);
         }
 
         public async Task<Todolist> GetOneByIdAsync(int listId, int userId)
@@ -41,9 +44,9 @@ namespace Taskmanager.Services
             return await _todolistRepo.GetOneByIdAsync(listId, userId);
         }
 
-        public Task UpdateAsync(int updatableTodolist, Todolist updatedTodolist)
+        public async Task UpdateAsync(int userId, int updatableTodolist, Todolist updatedTodolist)
         {
-            throw new System.NotImplementedException();
+            await _todolistRepo.UpdateAsync(userId, updatableTodolist, updatedTodolist);
         }
     }
 }

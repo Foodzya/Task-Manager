@@ -108,8 +108,7 @@ namespace Taskmanager.Data.Context
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Todolists)
-                    .HasForeignKey(d => d.Userid)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey(d => d.Userid);
             });
 
             modelBuilder.Entity<User>(entity =>

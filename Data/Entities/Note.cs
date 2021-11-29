@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-#nullable disable
-
 namespace Taskmanager.Data.Entities
 {
     public partial class Note

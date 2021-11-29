@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,21 +20,25 @@ namespace Taskmanager.Repositories
 
         public async Task AddAsync(Todolist todolist)
         {
+            todolist.Creationdate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
             await _context.Todolists.AddAsync(todolist);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Todolist todolist)
+        public async Task DeleteAsync(int userId, int todolistId)
         {
-            _context.Todolists.Remove(todolist);
+            Todolist deletableTodolist = await _context.Todolists.FirstAsync(list => list.Userid == userId && list.Id == todolistId);
+
+            _context.Todolists.Remove(deletableTodolist);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Todolist>> GetAllAsync()
+        public async Task<List<Todolist>> GetAllAsync(int userId)
         {
-            return await _context.Todolists.ToListAsync();
+            return await _context.Todolists.Where(list => list.Userid == userId).ToListAsync();
         }
 
         public async Task<Todolist> GetOneByIdAsync(int listId, int userId)
@@ -43,9 +48,9 @@ namespace Taskmanager.Repositories
             return await _context.Todolists.FirstAsync(t => t.Id == listId);
         }
 
-        public async Task UpdateAsync(int idOfUpdatableTodolist, Todolist updatedTodolist)
+        public async Task UpdateAsync(int userId, int idOfUpdatableTodolist, Todolist updatedTodolist)
         {
-            Todolist todolistToBeUpdated = await _context.Todolists.FirstOrDefaultAsync(t => t.Id == idOfUpdatableTodolist);
+            Todolist todolistToBeUpdated = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == idOfUpdatableTodolist && list.Userid == userId);
 
             if (todolistToBeUpdated != null)
             {

@@ -7,9 +7,9 @@ namespace Taskmanager.Repositories.Interfaces
     public interface ITodolistRepository
     {
         public Task<Todolist> GetOneByIdAsync(int listId, int userId);
-        public Task<List<Todolist>> GetAllAsync();
+        public Task<List<Todolist>> GetAllAsync(int userId);
         public Task AddAsync(Todolist todolist);
-        public Task UpdateAsync(int idOfUpdatableTodolist, Todolist updatedTodolist);
-        public Task DeleteAsync(Todolist todolist);
+        public Task UpdateAsync(int userId, int idOfUpdatableTodolist, Todolist updatedTodolist);
+        public Task DeleteAsync(int userId, int todolistId);
     }
 }
