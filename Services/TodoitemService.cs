@@ -21,56 +21,24 @@ namespace Taskmanager.Services
             await _todoitemRepo.AddAsync(todoitem);
         }
 
-        public async Task ChangeDeadlineDate(Todoitem todoitem, DateTime newDeadlineDate)
+        public async Task DeleteAsync(int userId, int listId, int itemId)
         {
-            int idOfItem = (int)todoitem.Id;
-
-            Todoitem updatableTodoitem = await _todoitemRepo.GetOneByIdAsync(idOfItem);
-
-            updatableTodoitem.Deadlinedate = ToDateSqlite(newDeadlineDate);
-
-            await _todoitemRepo.UpdateAsync(updatableTodoitem);
+            await _todoitemRepo.DeleteAsync(userId, listId, itemId);
         }
 
-        public async Task ChangePriority(Todoitem todoitem, Priority newPriority)
+        public async Task<List<Todoitem>> GetAllAsync(int userId, int todolistId)
         {
-            Todoitem updatableTodoitem = await _todoitemRepo.GetOneByIdAsync((int)todoitem.Id);
-
-            updatableTodoitem.Priority = newPriority;
-            updatableTodoitem.Priorityid = newPriority.Id;
-
-            await _todoitemRepo.UpdateAsync(updatableTodoitem);
+           return await  _todoitemRepo.GetAllAsync(userId, todolistId);
         }
 
-        public async Task DeleteAsync(Todoitem todoitem)
+        public async Task<Todoitem> GetOneByIdAsync(int userId, int listId, int itemId)
         {
-            await _todoitemRepo.DeleteAsync(todoitem);
+            return await _todoitemRepo.GetOneByIdAsync(userId, listId, itemId); 
         }
 
-        public async Task<List<Todoitem>> GetAllAsync()
+        public async Task UpdateAsync(int userId, int listId, int itemId, Todoitem todoitem)
         {
-           return await  _todoitemRepo.GetAllAsync();
-        }
-
-        public async Task<Todoitem> GetOneByIdAsync(int id)
-        {
-            return await _todoitemRepo.GetOneByIdAsync(id); 
-        }
-
-        public async Task ChangeExecutionStatus(Todoitem todoitem, bool isFinished)
-        {
-            Todoitem updatableTodoitem = await _todoitemRepo.GetOneByIdAsync((int)todoitem.Id);
-
-            updatableTodoitem.Isfinished = isFinished ? 1 : 0;
-
-            await _todoitemRepo.UpdateAsync(updatableTodoitem);
-        }
-
-        private string ToDateSqlite(DateTime dateTime)
-        {
-            string dateFormat = "yyyy-MM-dd HH:mm:ss.fff";
-
-            return dateTime.ToString(dateFormat);
+            await _todoitemRepo.UpdateAsync(userId, listId, itemId, todoitem);
         }
     }
 }

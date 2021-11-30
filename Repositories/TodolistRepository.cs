@@ -20,8 +20,6 @@ namespace Taskmanager.Repositories
 
         public async Task AddAsync(Todolist todolist)
         {
-            todolist.Creationdate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
-
             await _context.Todolists.AddAsync(todolist);
 
             await _context.SaveChangesAsync();

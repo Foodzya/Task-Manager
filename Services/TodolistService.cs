@@ -19,8 +19,11 @@ namespace Taskmanager.Services
             _todoitemRepo = todoitemRepo;
         }
 
-        public async Task AddAsync(Todolist todolist)
+        public async Task AddAsync(Todolist todolist, int userId)
         {
+            todolist.Creationdate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            todolist.Userid = userId;
+
             await _todolistRepo.AddAsync(todolist);
         }
 

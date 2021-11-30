@@ -8,7 +8,7 @@ namespace Taskmanager.Repositories.Interfaces
     {
         public Task<Note> GetOneByIdAsync(int id);
         public Task<List<Note>> GetAllAsync();
-        public Task AddAsync(Note note);
+        public Task AddAsync(int itemId, Note note);
         public Task UpdateAsync(int idOfUpdatableNote, Note updatedNote);
         public Task DeleteAsync(Note note);
     }

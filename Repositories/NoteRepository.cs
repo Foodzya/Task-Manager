@@ -16,7 +16,7 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(Note note)
+        public async Task AddAsync(int itemId, Note note)
         {
             await _context.Notes.AddAsync(note);
 

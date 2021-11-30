@@ -8,7 +8,7 @@ namespace Taskmanager.Services.Interfaces
     {
         public Task<Todolist> GetOneByIdAsync(int listId, int userId);
         public Task<List<Todolist>> GetAllAsync(int userId);
-        public Task AddAsync(Todolist list);
+        public Task AddAsync(Todolist list, int userId);
         public Task DeleteAsync(int userId, int todolistId);
         public Task UpdateAsync(int userId, int updatableTodolist, Todolist updatedTodolist);
     }

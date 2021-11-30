@@ -7,10 +7,10 @@ namespace Taskmanager.Repositories.Interfaces
 {
     public interface ITodoitemRepository
     {
-        public Task<Todoitem> GetOneByIdAsync(int id);
-        public Task<List<Todoitem>> GetAllAsync();
+        public Task<Todoitem> GetOneByIdAsync(int userId, int listId, int itemId);
+        public Task<List<Todoitem>> GetAllAsync(int userId, int listId);
         public Task AddAsync(Todoitem todoitem);
-        public Task UpdateAsync(Todoitem updatedTodoitem);
-        public Task DeleteAsync(Todoitem todoitem);
+        public Task UpdateAsync(int userId, int listId, int itemId, Todoitem item);
+        public Task DeleteAsync(int userId, int listId, int itemId);
     }
 }

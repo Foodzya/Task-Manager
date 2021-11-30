@@ -21,7 +21,7 @@ namespace Taskmanager.Controllers.InputModels
         {
             if (newUser != null)
             {
-                return new User() { Email = newUser.Email, Password = newUser.Password,Username = newUser.Username };
+                return new User() { Email = newUser.Email, Password = newUser.Password, Username = newUser.Username };
             }
             throw new Exception("User was null");
         }

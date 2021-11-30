@@ -24,35 +24,43 @@ namespace Taskmanager.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Todoitem todoitem)
+        public async Task DeleteAsync(int userId, int listId, int itemId)
         {
-            _context.Todoitems.Remove(todoitem);
+            Todolist requiredTodolist = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == listId && list.Userid == userId);
+
+            requiredTodolist.Todoitems.Remove(requiredTodolist.Todoitems.FirstOrDefault(item => item.Id == itemId));
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Todoitem>> GetAllAsync()
+        public async Task<List<Todoitem>> GetAllAsync(int userId, int listId)
         {
-            return await _context.Todoitems.ToListAsync();
+            Todolist requiredTodolist = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == listId && list.Userid == userId);
+
+            return requiredTodolist.Todoitems.ToList();
         }
 
-        public Task<Todoitem> GetOneByIdAsync(int id)
+        public async Task<Todoitem> GetOneByIdAsync(int userId, int listId, int itemId)
         {
-            return _context.Todoitems.FirstAsync(t => t.Id == id);
+            int requiredTodolistId = _context.Todolists.FirstAsync(list => list.Id == listId && list.Userid == userId).Id;
+
+            return await _context.Todoitems.FirstOrDefaultAsync(item => item.Id == itemId && item.Todolistid == requiredTodolistId);
         }
 
-        public async Task UpdateAsync(Todoitem updatedTodoitem)
+        public async Task UpdateAsync(int userId, int listId, int itemId, Todoitem item)
         {
-            Todoitem updatableTodoitem = await _context.Todoitems.FirstOrDefaultAsync(t => t.Id.Equals(updatedTodoitem.Id));
+            Todolist todolist = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == listId && list.Userid == userId);
+
+            Todoitem updatableTodoitem = todolist.Todoitems.FirstOrDefault(item => item.Id == itemId);
 
             if (updatableTodoitem != null)
             {
-                updatableTodoitem.Isfinished = updatedTodoitem.Isfinished;
-                updatableTodoitem.Note = updatedTodoitem.Note;
-                updatableTodoitem.Priority = updatedTodoitem.Priority;
-                updatableTodoitem.Priorityid = updatedTodoitem.Priorityid;
-                updatableTodoitem.Title = updatedTodoitem.Title;
-                updatableTodoitem.Deadlinedate = updatedTodoitem.Deadlinedate;
+                updatableTodoitem.Isfinished = item.Isfinished;
+                updatableTodoitem.Note = item.Note;
+                updatableTodoitem.Priority = item.Priority;
+                updatableTodoitem.Priorityid = item.Priorityid;
+                updatableTodoitem.Title = item.Title;
+                updatableTodoitem.Deadlinedate = item.Deadlinedate;
             }
 
             await _context.SaveChangesAsync();

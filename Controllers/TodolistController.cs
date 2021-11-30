@@ -41,7 +41,9 @@ namespace Taskmanager.Controllers
         [HttpPost("{userId}")]
         public async Task<ActionResult> AddAsync([FromRoute] int userId, [FromBody] TodolistInputModel inputModel)
         {
-            await _todolistService.AddAsync(TodolistInputModel.MapTodolist(userId, inputModel));
+            Todolist newTodolist = TodolistInputModel.MapTodolist(inputModel);
+
+            await _todolistService.AddAsync(newTodolist, userId);
 
             return NoContent();
         }
@@ -57,7 +59,7 @@ namespace Taskmanager.Controllers
         [HttpPut("{userId}/{todolistId}")]
         public async Task<ActionResult> UpdateAsync([FromRoute] int userId, [FromRoute] int todolistId, [FromBody] TodolistInputModel inputModel)
         {
-            Todolist updatableTodolist = TodolistInputModel.MapTodolist(userId, inputModel);
+            Todolist updatableTodolist = TodolistInputModel.MapTodolist(inputModel);
 
             await _todolistService.UpdateAsync(userId, todolistId, updatableTodolist);
 
