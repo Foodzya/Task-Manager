@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Taskmanager.Data.Entities;
 using Taskmanager.Repositories.Interfaces;
@@ -15,19 +14,24 @@ namespace Taskmanager.Services
             _noteRepo = noteRepo;
         }
 
-        public async Task<Note> GetOneById(int noteId)
+        public async Task<Note> GetOneByIdAsync(int userId, int todolistId, int todoitemId)
         {
-            return await _noteRepo.GetOneByIdAsync(noteId);
+            return await _noteRepo.GetOneAsync(userId, todolistId, todoitemId);
         }
 
-        public async Task<List<Note>> GetAllAsync()
+        public async Task UpdateAsync(int idOfUpdatableNote, Note updatedNote)
         {
-            return await _noteRepo.GetAllAsync();
+            await _noteRepo.UpdateAsync(idOfUpdatableNote, updatedNote);
         }
 
-        public async Task AddAsync()
+        public async Task DeleteAsync(int noteId)
         {
-            await _noteRepo.AddAsync(note);
+            await _noteRepo.DeleteAsync(noteId);
+        }
+
+        public async Task AddAsync(int userId, int todolistId, int todoitemId, Note note)
+        {
+            await _noteRepo.AddAsync(userId, todolistId, todoitemId, note);
         }
     }
 }

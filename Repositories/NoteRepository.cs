@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Taskmanager.Data.Context;
@@ -16,16 +17,20 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(int itemId, Note note)
+        public async Task AddAsync(int userId, int todolistId, int todoitemId, Note note)
         {
+            Todolist todolist = await _context.Todolists.FirstOrDefaultAsync(list => list.Userid == userId && list.Id == todolistId);
+
             await _context.Notes.AddAsync(note);
+        
+            todolist.Todoitems.FirstOrDefault(item => item.Id == todoitemId).Noteid = note.Id;
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Note note)
+        public async Task DeleteAsync(int noteId)
         {
-            _context.Notes.Remove(note);
+            _context.Notes.Remove(await _context.Notes.FirstOrDefaultAsync(note => note.Id == noteId));
 
             await _context.SaveChangesAsync();
         }
@@ -35,9 +40,11 @@ namespace Taskmanager.Repositories
             return await _context.Notes.ToListAsync();
         }
 
-        public async Task<Note> GetOneByIdAsync(int id)
+        public async Task<Note> GetOneAsync(int userId, int todolistId, int todoitemId)
         {
-            return await _context.Notes.FirstAsync(n => n.Id == id); 
+            Todolist listWithRequiredTodoitem = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == todolistId && list.Userid == userId);
+
+            return listWithRequiredTodoitem.Todoitems.FirstOrDefault(item => item.Id == todoitemId).Note;
         }
 
         public async Task UpdateAsync(int idOfUpdatableNote, Note updatedNote)
