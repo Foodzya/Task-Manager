@@ -7,16 +7,20 @@ namespace Taskmanager.Controllers.ViewModels
     public class TodolistViewModel
     {
         public string Title { get; set; }
-        public string Creationdate { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public static TodolistViewModel MapTodolist(Todolist todolist)
         {
             if (todolist != null)
             {
-                return new TodolistViewModel(){ Title = todolist.Title, Creationdate = todolist.Creationdate };
+                return new TodolistViewModel()
+                { 
+                    Title = todolist.Title,
+                    CreationDate = Convert.ToDateTime(todolist.Creationdate) 
+                };
             }
             
-            throw new Exception("Todolist is empty");
+            throw new NullReferenceException();
         }
     }
 }

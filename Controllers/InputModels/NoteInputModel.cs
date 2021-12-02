@@ -12,12 +12,12 @@ namespace Taskmanager.Controllers.InputModels
     
         public static Note MapNote(NoteInputModel inputModel)
         {
-            if(inputModel != null)
+            if (inputModel != null)
             {
                 return new Note{ Body = inputModel.Body };
             }
 
-            throw new Exception("Note was empty");
+            throw new NullReferenceException();
         }
     }
 }

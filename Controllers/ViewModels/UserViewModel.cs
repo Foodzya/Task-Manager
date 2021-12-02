@@ -15,7 +15,7 @@ namespace Taskmanager.Controllers.ViewModels
                 return new UserViewModel() { Email = user.Email, Username = user.Username };
             }
 
-            throw new Exception("User is null");
+            throw new NullReferenceException();
         }
     }
 }

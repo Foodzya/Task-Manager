@@ -19,7 +19,7 @@ namespace Taskmanager.Controllers
         }
 
         [HttpGet("{userId}/{todolistId}/{todoitemId}")]
-        public async Task<ActionResult<NoteViewModel>> GetOneByIdAsync([FromRoute] int userId, [FromRoute] int todolistId, [FromRoute] int todoitemId)
+        public async Task<ActionResult<NoteViewModel>> GetByIdAsync([FromRoute] int userId, [FromRoute] int todolistId, [FromRoute] int todoitemId)
         {
             Note requiredNote = await _noteService.GetOneByIdAsync(userId, todolistId, todoitemId);
 

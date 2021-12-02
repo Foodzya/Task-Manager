@@ -12,12 +12,12 @@ namespace Taskmanager.Controllers.InputModels
 
         public static Todolist MapTodolist(TodolistInputModel inputModel)
         {
-            if(inputModel != null)
+            if (inputModel != null)
             {
                 return new Todolist() { Title = inputModel.Title };
             }
 
-            throw new Exception("Input Model is empty");
+            throw new NullReferenceException();
         }
     }
 }

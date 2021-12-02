@@ -9,12 +9,12 @@ namespace Taskmanager.Controllers.ViewModels
 
         public static NoteViewModel MapNote(Note note)
         {
-            if(note != null)
+            if (note != null)
             {
                 return new NoteViewModel{ Body = note.Body };
             }
 
-            throw new Exception("No such note");
+            throw new NullReferenceException();
         }
     }
 }
