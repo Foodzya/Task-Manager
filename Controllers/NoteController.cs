@@ -36,7 +36,7 @@ namespace Taskmanager.Controllers
             return Ok();
         }
 
-        [HttpDelete("{noteId")]
+        [HttpDelete("{noteId}")]
         public async Task<ActionResult> DeleteAsync([FromRoute] int noteId)
         {
             await _noteService.DeleteAsync(noteId);
