@@ -6,10 +6,10 @@ namespace Taskmanager.Services.Interfaces
 {
     public interface ITodoitemService
     {
-        public Task AddAsync(Todoitem todoitem);
-        public Task DeleteAsync(int userId, int listId, int itemId);
+        public Task AddAsync(int todolistId, Todoitem todoitem);
+        public Task DeleteAsync(int todoitemId);
         public Task<List<Todoitem>> GetAllAsync(int userId, int todolistId);
-        public Task UpdateAsync (int userId, int listId, int itemId, Todoitem todoitem);
-        public Task<Todoitem> GetOneByIdAsync(int userId, int listId, int itemId); 
+        public Task UpdateAsync (int todoitemId, Todoitem todoitem);
+        public Task<Todoitem> GetByIdAsync(int todoitemId); 
     }
 }

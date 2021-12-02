@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Taskmanager.Data.Entities;
 
-#nullable disable
-
 namespace Taskmanager.Data.Context
 {
     public partial class TaskManagerContext : DbContext
@@ -34,13 +32,18 @@ namespace Taskmanager.Data.Context
         {
             modelBuilder.Entity<Note>(entity =>
             {
-                entity.ToTable("NOTES");
-
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Body)
                     .IsRequired()
                     .HasColumnName("BODY");
+
+                entity.Property(e => e.Todoitemid).HasColumnName("TODOITEMID");
+
+                entity.HasOne(d => d.Todoitem)
+                    .WithMany(p => p.Notes)
+                    .HasForeignKey(d => d.Todoitemid)
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<Priority>(entity =>
@@ -108,7 +111,8 @@ namespace Taskmanager.Data.Context
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Todolists)
-                    .HasForeignKey(d => d.Userid);
+                    .HasForeignKey(d => d.Userid)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<User>(entity =>

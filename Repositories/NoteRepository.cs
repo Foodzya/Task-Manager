@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Taskmanager.Data.Context;
@@ -17,20 +16,20 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(int userId, int todolistId, int todoitemId, Note note)
+        public async Task AddAsync(int todoitemId, Note note)
         {
-            Todolist todolist = await _context.Todolists.FirstOrDefaultAsync(list => list.Userid == userId && list.Id == todolistId);
+            note.Todoitemid = todoitemId;
 
-            await _context.Notes.AddAsync(note);
-        
-            todolist.Todoitems.FirstOrDefault(item => item.Id == todoitemId).Noteid = note.Id;
+            _context.Notes.Add(note);
 
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int noteId)
         {
-            _context.Notes.Remove(await _context.Notes.FirstOrDefaultAsync(note => note.Id == noteId));
+            Note deletableNote = await _context.Notes.FirstOrDefaultAsync(note => note.Id == noteId);
+
+            _context.Notes.Remove(deletableNote);
 
             await _context.SaveChangesAsync();
         }
@@ -40,11 +39,11 @@ namespace Taskmanager.Repositories
             return await _context.Notes.ToListAsync();
         }
 
-        public async Task<Note> GetOneAsync(int userId, int todolistId, int todoitemId)
+        public async Task<Note> GetOneAsync(int todoitemId)
         {
-            Todolist listWithRequiredTodoitem = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == todolistId && list.Userid == userId);
+            Note requestedNote = await _context.Notes.FirstOrDefaultAsync(note => note.Todoitemid == todoitemId);
 
-            return listWithRequiredTodoitem.Todoitems.FirstOrDefault(item => item.Id == todoitemId).Note;
+            return requestedNote;
         }
 
         public async Task UpdateAsync(int idOfUpdatableNote, Note updatedNote)

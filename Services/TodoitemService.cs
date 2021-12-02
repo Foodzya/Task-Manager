@@ -8,36 +8,36 @@ namespace Taskmanager.Services
 {
     public class TodoitemService : ITodoitemService
     {
-        private readonly ITodoitemRepository _todoitemRepo;
+        private readonly ITodoitemRepository _todoitemRepository;
 
-        public TodoitemService(ITodoitemRepository todoitemRepo)
+        public TodoitemService(ITodoitemRepository todoitemRepository)
         {
-            _todoitemRepo = todoitemRepo;
+            _todoitemRepository = todoitemRepository;
         }
 
-        public async Task AddAsync(Todoitem todoitem)
+        public async Task AddAsync(int todolistId, Todoitem todoitem)
         {
-            await _todoitemRepo.AddAsync(todoitem);
+            await _todoitemRepository.AddAsync(todolistId, todoitem);
         }
 
-        public async Task DeleteAsync(int userId, int listId, int itemId)
+        public async Task DeleteAsync(int todoitemId)
         {
-            await _todoitemRepo.DeleteAsync(userId, listId, itemId);
+            await _todoitemRepository.DeleteAsync(todoitemId);
         }
 
         public async Task<List<Todoitem>> GetAllAsync(int userId, int todolistId)
         {
-           return await  _todoitemRepo.GetAllAsync(userId, todolistId);
+           return await  _todoitemRepository.GetAllAsync(userId, todolistId);
         }
 
-        public async Task<Todoitem> GetOneByIdAsync(int userId, int listId, int itemId)
+        public async Task<Todoitem> GetByIdAsync(int itemId)
         {
-            return await _todoitemRepo.GetOneByIdAsync(userId, listId, itemId); 
+            return await _todoitemRepository.GetByIdAsync(itemId); 
         }
 
-        public async Task UpdateAsync(int userId, int listId, int itemId, Todoitem todoitem)
+        public async Task UpdateAsync(int todoitemId, Todoitem todoitem)
         {
-            await _todoitemRepo.UpdateAsync(userId, listId, itemId, todoitem);
+            await _todoitemRepository.UpdateAsync(todoitemId, todoitem);
         }
     }
 }

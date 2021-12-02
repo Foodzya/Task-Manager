@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,47 +21,51 @@ namespace Taskmanager.Controllers
             _todoitemService = todoitemService;
         }
 
-        [HttpGet("{userId}/{todolistId}/{todoitemId}")]
-        public async Task<ActionResult<TodoitemViewModel>> GetOneByIdAsync([FromRoute] int userId, [FromRoute] int todolistId, [FromRoute] int todoitemId)
+        [HttpGet("{todoitemId}")]
+        public async Task<ActionResult<TodoitemViewModel>> GetByIdAsync([FromRoute] int todoitemId)
         {
-            Todoitem requiredTodoitem = await _todoitemService.GetOneByIdAsync(userId, todolistId, todoitemId);
+            Todoitem requiredTodoitem = await _todoitemService.GetByIdAsync(todoitemId);
 
             return Ok(TodoitemViewModel.MapTodoitem(requiredTodoitem));
         }
 
-        [HttpGet("{userId}/{listId}")]
-        public async Task<ActionResult<List<TodoitemViewModel>>> GetAllAsync([FromRoute] int userId, [FromRoute] int listId)
+        [HttpGet("{userId}/{todolistId}")]
+        public async Task<ActionResult<List<TodoitemViewModel>>> GetAllAsync([FromRoute] int userId, [FromRoute] int todolistId)
         {
-            List<Todoitem> todoitemsList = await _todoitemService.GetAllAsync(userId, listId);
+            List<Todoitem> todoitemsList = await _todoitemService.GetAllAsync(userId, todolistId);
 
-            return todoitemsList.Select(item => TodoitemViewModel.MapTodoitem(item)).ToList();
+            Func<Todoitem, TodoitemViewModel> todoitemsMapperToViewModels = delegate(Todoitem todoitem)
+            {
+                return TodoitemViewModel.MapTodoitem(todoitem);
+            };
+
+            return Ok(todoitemsList.Select(todoitemsMapperToViewModels).ToList());
         }
         
-        [HttpPost("{listId}")]
-        public async Task<ActionResult> AddAsync([FromRoute] int listId, [FromBody] TodoitemInputModel inputModel)
+        [HttpPost("{todolistId}")]
+        public async Task<ActionResult> AddAsync([FromRoute] int todolistId, [FromBody] TodoitemInputModel inputModel)
         {
             Todoitem newTodoitem = TodoitemInputModel.MapTodoitem(inputModel);
-            newTodoitem.Todolistid = listId;
 
-            await _todoitemService.AddAsync(newTodoitem);
+            await _todoitemService.AddAsync(todolistId, newTodoitem);
 
             return Ok();
         }
 
-        [HttpDelete("{userId}/{listId}/{itemId}")]
-        public async Task<ActionResult> DeleteAsync([FromRoute] int userId, [FromRoute] int listId, [FromRoute] int itemId)
+        [HttpDelete("{todoitemId}")]
+        public async Task<ActionResult> DeleteAsync([FromRoute] int todoitemId)
         {
-            await _todoitemService.DeleteAsync(userId, listId, itemId);
+            await _todoitemService.DeleteAsync(todoitemId);
             
             return NoContent();
         }
 
-        [HttpPut("{userId}/{listId}/{itemId}")]
-        public async Task<ActionResult> UpdateAsync([FromRoute] int userId, [FromRoute] int listId, [FromRoute] int itemId, [FromBody] TodoitemInputModel inputModel)
+        [HttpPut("{todoitemId}")]
+        public async Task<ActionResult> UpdateAsync([FromRoute] int todoitemId, [FromBody] TodoitemInputModel inputModel)
         {
-            Todoitem tempTodoitem = TodoitemInputModel.MapTodoitem(inputModel);
+            Todoitem updatedTodoitem = TodoitemInputModel.MapTodoitem(inputModel);
         
-            await _todoitemService.UpdateAsync(userId, listId, itemId, tempTodoitem);
+            await _todoitemService.UpdateAsync(todoitemId, updatedTodoitem);
 
             return Ok();
         }

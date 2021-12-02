@@ -9,13 +9,13 @@ namespace Taskmanager.Services
 {
     public class TodolistService : ITodolistService
     {
-        private readonly ITodolistRepository _todolistRepo;
-        private readonly ITodoitemRepository _todoitemRepo;
+        private readonly ITodolistRepository _todolistRepository;
+        private readonly ITodoitemRepository _todoitemRepository;
 
-        public TodolistService(ITodolistRepository todolistRepo, ITodoitemRepository todoitemRepo)
+        public TodolistService(ITodolistRepository todolistRepository, ITodoitemRepository todoitemRepository)
         {
-            _todolistRepo = todolistRepo;
-            _todoitemRepo = todoitemRepo;
+            _todolistRepository = todolistRepository;
+            _todoitemRepository = todoitemRepository;
         }
 
         public async Task AddAsync(Todolist todolist, int userId)
@@ -23,14 +23,14 @@ namespace Taskmanager.Services
             todolist.Creationdate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
             todolist.Userid = userId;
 
-            await _todolistRepo.AddAsync(todolist);
+            await _todolistRepository.AddAsync(todolist);
         }
 
         public async Task DeleteAsync(int userId, int todolistId)
         {
-            if (GetOneByIdAsync(todolistId, userId) != null)
+            if (GetByIdAsync(todolistId, userId) != null)
             {
-                await _todolistRepo.DeleteAsync(userId, todolistId);
+                await _todolistRepository.DeleteAsync(userId, todolistId);
             }
 
             throw new Exception("Todolist not found");
@@ -38,17 +38,17 @@ namespace Taskmanager.Services
 
         public async Task<List<Todolist>> GetAllAsync(int userId)
         {
-            return await _todolistRepo.GetAllAsync(userId);
+            return await _todolistRepository.GetAllAsync(userId);
         }
 
-        public async Task<Todolist> GetOneByIdAsync(int listId, int userId)
+        public async Task<Todolist> GetByIdAsync(int listId, int userId)
         {
-            return await _todolistRepo.GetOneByIdAsync(listId, userId);
+            return await _todolistRepository.GetByIdAsync(listId, userId);
         }
 
         public async Task UpdateAsync(int userId, int updatableTodolist, Todolist updatedTodolist)
         {
-            await _todolistRepo.UpdateAsync(userId, updatableTodolist, updatedTodolist);
+            await _todolistRepository.UpdateAsync(userId, updatableTodolist, updatedTodolist);
         }
     }
 }

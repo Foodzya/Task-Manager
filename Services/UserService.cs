@@ -25,9 +25,9 @@ namespace Taskmanager.Services
             return await _userRepo.GetAllAsync();
         }
 
-        public async Task<User> GetOneByIdAsync(int id)
+        public async Task<User> GetByIdAsync(int id)
         {
-            return await _userRepo.GetOneByIdAsync(id);
+            return await _userRepo.GetByIdAsync(id);
         }
 
         public async Task UpdateAsync(int idOfUpdatableUser, User updatedUser)

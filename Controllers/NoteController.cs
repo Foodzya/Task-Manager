@@ -18,18 +18,20 @@ namespace Taskmanager.Controllers
             _noteService = noteService;
         }
 
-        [HttpGet("{userId}/{todolistId}/{todoitemId}")]
-        public async Task<ActionResult<NoteViewModel>> GetByIdAsync([FromRoute] int userId, [FromRoute] int todolistId, [FromRoute] int todoitemId)
+        [HttpGet("{todoitemId}")]
+        public async Task<ActionResult<NoteViewModel>> GetByIdAsync([FromRoute] int todoitemId)
         {
-            Note requiredNote = await _noteService.GetOneByIdAsync(userId, todolistId, todoitemId);
+            Note requiredNote = await _noteService.GetOneAsync(todoitemId);
 
-            return NoteViewModel.MapNote(requiredNote);
+            return Ok(NoteViewModel.MapNote(requiredNote));
         }
 
-        [HttpPost("{userId}/{todolistId}/{todoitemId}")]
-        public async Task<ActionResult> AddAsync ([FromRoute] int userId, [FromRoute] int todolistId, [FromRoute] int todoitemId, [FromBody] NoteInputModel inputModel)
+        [HttpPost("{todoitemId}")]
+        public async Task<ActionResult> AddAsync ([FromRoute] int todoitemId, [FromBody] NoteInputModel inputModel)
         {
-            await _noteService.AddAsync(userId, todolistId, todoitemId, NoteInputModel.MapNote(inputModel));
+            Note note = NoteInputModel.MapNote(inputModel);
+
+            await _noteService.AddAsync(todoitemId, note);
 
             return Ok();
         }

@@ -6,7 +6,7 @@ namespace Taskmanager.Services.Interfaces
 {
     public interface IPriorityService
     {
-        public Task<Priority> GetOneByIdAsync(int id);
+        public Task<Priority> GetByIdAsync(int id);
         public Task<List<Priority>> GetAllAsync();
     }
 }

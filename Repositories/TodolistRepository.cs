@@ -19,7 +19,7 @@ namespace Taskmanager.Repositories
 
         public async Task AddAsync(Todolist todolist)
         {
-            await _context.Todolists.AddAsync(todolist);
+            _context.Todolists.Add(todolist);
 
             await _context.SaveChangesAsync();
         }
@@ -38,7 +38,7 @@ namespace Taskmanager.Repositories
             return await _context.Todolists.Where(list => list.Userid == userId).ToListAsync();
         }
 
-        public async Task<Todolist> GetOneByIdAsync(int listId, int userId)
+        public async Task<Todolist> GetByIdAsync(int listId, int userId)
         {
             Todolist list = await _context.Todolists.Where(list => list.Userid == userId).SingleAsync(list => list.Id == listId);
 

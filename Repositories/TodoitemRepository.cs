@@ -17,18 +17,20 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(Todoitem todoitem)
+        public async Task AddAsync(int todolistId, Todoitem todoitem)
         {
-            await _context.Todoitems.AddAsync(todoitem);
+            todoitem.Todolistid = todolistId;
+
+            _context.Todoitems.Add(todoitem);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int userId, int listId, int itemId)
+        public async Task DeleteAsync(int todoitemId)
         {
-            Todolist requiredTodolist = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == listId && list.Userid == userId);
+            Todoitem deletableTodoitem = await _context.Todoitems.FirstOrDefaultAsync(item => item.Id == todoitemId);
 
-            requiredTodolist.Todoitems.Remove(requiredTodolist.Todoitems.FirstOrDefault(item => item.Id == itemId));
+            _context.Todoitems.Remove(deletableTodoitem);
 
             await _context.SaveChangesAsync();
         }
@@ -40,24 +42,20 @@ namespace Taskmanager.Repositories
             return requiredTodolist.Todoitems.ToList();
         }
 
-        public async Task<Todoitem> GetOneByIdAsync(int userId, int listId, int itemId)
+        public async Task<Todoitem> GetByIdAsync(int todoitemId)
         {
-            int requiredTodolistId = _context.Todolists.FirstAsync(list => list.Id == listId && list.Userid == userId).Id;
+            Todoitem requestedTodoitem = await _context.Todoitems.FirstOrDefaultAsync(todoitem => todoitem.Id == todoitemId);
 
-            return await _context.Todoitems.FirstOrDefaultAsync(item => item.Id == itemId && item.Todolistid == requiredTodolistId);
+            return requestedTodoitem;
         }
 
-        public async Task UpdateAsync(int userId, int listId, int itemId, Todoitem item)
+        public async Task UpdateAsync(int todoitemId, Todoitem item)
         {
-            Todolist todolist = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == listId && list.Userid == userId);
-
-            Todoitem updatableTodoitem = todolist.Todoitems.FirstOrDefault(item => item.Id == itemId);
+            Todoitem updatableTodoitem = await _context.Todoitems.FirstOrDefaultAsync(item => item.Id == todoitemId);
 
             if (updatableTodoitem != null)
             {
                 updatableTodoitem.Isfinished = item.Isfinished;
-                updatableTodoitem.Note = item.Note;
-                updatableTodoitem.Priority = item.Priority;
                 updatableTodoitem.Priorityid = item.Priorityid;
                 updatableTodoitem.Title = item.Title;
                 updatableTodoitem.Deadlinedate = item.Deadlinedate;

@@ -6,6 +6,7 @@ using Taskmanager.Data.Entities;
 using Taskmanager.Services.Interfaces;
 using System.Linq;
 using Taskmanager.Controllers.InputModels;
+using System;
 
 namespace Taskmanager.Controllers
 {
@@ -23,11 +24,11 @@ namespace Taskmanager.Controllers
         [HttpGet("{userId}/{todolistId}")]
         public async Task<ActionResult<TodolistViewModel>> GetOneById([FromRoute] int todolistId, [FromRoute] int userId)
         {
-            Todolist todolist = await _todolistService.GetOneByIdAsync(todolistId, userId);
+            Todolist requestedTodolist = await _todolistService.GetByIdAsync(todolistId, userId);
 
-            TodolistViewModel todolistToBeDisplayed = TodolistViewModel.MapTodolist(todolist);
+            TodolistViewModel todolistViewModel = TodolistViewModel.MapTodolist(requestedTodolist);
 
-            return Ok(todolistToBeDisplayed);
+            return Ok(todolistViewModel);
         }
 
         [HttpGet("{userId}")]
@@ -35,7 +36,12 @@ namespace Taskmanager.Controllers
         {
             List<Todolist> listOfTodolists = await _todolistService.GetAllAsync(userId);
 
-            return Ok(listOfTodolists.Select(list => TodolistViewModel.MapTodolist(list)).ToList());
+            Func<Todolist, TodolistViewModel> todolistViewModelMapper = delegate (Todolist todolist)
+            {
+                return TodolistViewModel.MapTodolist(todolist); 
+            };
+
+            return Ok(listOfTodolists.Select(todolistViewModelMapper).ToList());
         }
 
         [HttpPost("{userId}")]

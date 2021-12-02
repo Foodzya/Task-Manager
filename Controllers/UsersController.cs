@@ -21,15 +21,15 @@ namespace Taskmanager.Controllers
         [HttpGet("{userId}")]
         public async Task<ActionResult<UserViewModel>> GetOneByIdAsync([FromRoute] int userId)
         {
-            User searchedUser = await _userService.GetOneByIdAsync(userId);
+            User requestedUser = await _userService.GetByIdAsync(userId);
 
-            UserViewModel userToBeDisplayed = UserViewModel.MapUser(searchedUser);
+            UserViewModel userToBeDisplayed = UserViewModel.MapUser(requestedUser);
 
             return Ok(userToBeDisplayed);
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddNewUserAsync([FromBody] UserInputModel userInputModel)
+        public async Task<ActionResult> AddAsync([FromBody] UserInputModel userInputModel)
         {
             User newUser = UserInputModel.MapUser(userInputModel);
 
@@ -39,7 +39,7 @@ namespace Taskmanager.Controllers
         }
 
         [HttpPut("{userId}")]
-        public async Task<ActionResult> UpdateUser([FromRoute] int userId, [FromBody] UserInputModel inputModel)
+        public async Task<ActionResult> UpdateAsync([FromRoute] int userId, [FromBody] UserInputModel inputModel)
         {
             User mappedUser = UserInputModel.MapUser(inputModel);
 

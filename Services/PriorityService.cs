@@ -8,21 +8,21 @@ namespace Taskmanager.Services
 {
     public class PriorityService : IPriorityService
     {
-        private readonly IPriorityRepository _priorityRepo;
+        private readonly IPriorityRepository _priorityRepository;
 
-        public PriorityService(IPriorityRepository priorityRepo)
+        public PriorityService(IPriorityRepository priorityRepository)
         {
-            _priorityRepo = priorityRepo;
+            _priorityRepository = priorityRepository;
         }
 
         public async Task<List<Priority>> GetAllAsync()
         {
-            return await _priorityRepo.GetAllAsync();
+            return await _priorityRepository.GetAllAsync();
         }
 
-        public async Task<Priority> GetOneByIdAsync(int id)
+        public async Task<Priority> GetByIdAsync(int id)
         {
-            return await _priorityRepo.GetOneByIdAsync(id);
+            return await _priorityRepository.GetByIdAsync(id);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Taskmanager.Services.Interfaces
 {
     public interface IUserService
     {
-        public Task<User> GetOneByIdAsync(int id);
+        public Task<User> GetByIdAsync(int userId);
         public Task<List<User>> GetAllAsync();
         public Task AddAsync(User user);
         public Task UpdateAsync(int idOfUpdatableUser, User updatedUser);

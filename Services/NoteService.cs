@@ -7,31 +7,31 @@ namespace Taskmanager.Services
 {
     public class NoteService : INoteService
     {
-        private readonly INoteRepository _noteRepo;
+        private readonly INoteRepository _noteRepository;
 
-        public NoteService(INoteRepository noteRepo)
+        public NoteService(INoteRepository noteRepository)
         {
-            _noteRepo = noteRepo;
+            _noteRepository = noteRepository;
         }
 
-        public async Task<Note> GetOneByIdAsync(int userId, int todolistId, int todoitemId)
+        public async Task<Note> GetOneAsync(int todoitemId)
         {
-            return await _noteRepo.GetOneAsync(userId, todolistId, todoitemId);
+            return await _noteRepository.GetOneAsync(todoitemId);
         }
 
         public async Task UpdateAsync(int idOfUpdatableNote, Note updatedNote)
         {
-            await _noteRepo.UpdateAsync(idOfUpdatableNote, updatedNote);
+            await _noteRepository.UpdateAsync(idOfUpdatableNote, updatedNote);
         }
 
         public async Task DeleteAsync(int noteId)
         {
-            await _noteRepo.DeleteAsync(noteId);
+            await _noteRepository.DeleteAsync(noteId);
         }
 
-        public async Task AddAsync(int userId, int todolistId, int todoitemId, Note note)
+        public async Task AddAsync(int todoitemId, Note note)
         {
-            await _noteRepo.AddAsync(userId, todolistId, todoitemId, note);
+            await _noteRepository.AddAsync(todoitemId, note);
         }
     }
 }

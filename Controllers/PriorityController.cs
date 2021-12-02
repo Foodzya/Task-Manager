@@ -5,6 +5,7 @@ using Taskmanager.Controllers.ViewModels;
 using Taskmanager.Services.Interfaces;
 using System.Linq;
 using Taskmanager.Data.Entities;
+using System;
 
 namespace Taskmanager.Controllers
 {
@@ -22,7 +23,9 @@ namespace Taskmanager.Controllers
         [HttpGet("{priorityId}")]
         public async Task<ActionResult<PriorityViewModel>> GetOneByIdAsync([FromRoute] int priorityId)
         {
-            return Ok(PriorityViewModel.MapPriority(await _priorityService.GetOneByIdAsync(priorityId)));
+            Priority requiredPriority = await _priorityService.GetByIdAsync(priorityId);
+
+            return Ok(PriorityViewModel.MapPriority(requiredPriority));
         }
 
         [HttpGet]
@@ -30,7 +33,12 @@ namespace Taskmanager.Controllers
         {
             List<Priority> priorities = await _priorityService.GetAllAsync();
 
-            return priorities.Select(priority => PriorityViewModel.MapPriority(priority)).ToList();
+            Func<Priority, PriorityViewModel> priorityMapping = delegate(Priority priority) 
+            {
+                return PriorityViewModel.MapPriority(priority);
+            };
+
+            return Ok(priorities.Select(priorityMapping).ToList());
         }
     }
 }

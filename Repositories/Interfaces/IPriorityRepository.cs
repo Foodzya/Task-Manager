@@ -6,7 +6,7 @@ namespace Taskmanager.Repositories.Interfaces
 {
     public interface IPriorityRepository
     {
-        public Task<Priority> GetOneByIdAsync(int id);
+        public Task<Priority> GetByIdAsync(int priorityId);
         public Task<List<Priority>> GetAllAsync();
     }
 }

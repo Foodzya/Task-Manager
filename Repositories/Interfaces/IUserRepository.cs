@@ -6,7 +6,7 @@ namespace Taskmanager.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        public Task<User> GetOneByIdAsync(int id);
+        public Task<User> GetByIdAsync(int userId);
         public Task<List<User>> GetAllAsync();
         public Task AddAsync(User user);
         public Task DeleteAsync(User user);
