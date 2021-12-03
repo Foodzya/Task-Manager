@@ -35,11 +35,12 @@ namespace Taskmanager.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Todoitem>> GetAllAsync(int userId, int listId)
+        public async Task<List<Todoitem>> GetAllAsync(int userId, int todolistId)
         {
-            Todolist requiredTodolist = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == listId && list.Userid == userId);
+            Todolist todolistWithRequiredItems = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == todolistId && list.Userid == userId);
 
-            return requiredTodolist.Todoitems.ToList();
+            return await _context.Todoitems.Where(item => item.Todolistid == todolistWithRequiredItems.Id).ToListAsync();
+            
         }
 
         public async Task<Todoitem> GetByIdAsync(int todoitemId)
