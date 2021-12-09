@@ -23,7 +23,7 @@ namespace Taskmanager.Controllers.InputModels
             {
                 return new User() { Email = newUser.Email, Password = newUser.Password, Username = newUser.Username };
             }
-            throw new NullReferenceException();
+            throw new NullReferenceException("UserInputModel");
         }
     }
 }

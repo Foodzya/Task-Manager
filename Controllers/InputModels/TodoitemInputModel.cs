@@ -7,29 +7,29 @@ namespace Taskmanager.Controllers.InputModels
     public class TodoitemInputModel
     {
         [Required]
-        [StringLength(300, MinimumLength = 1, ErrorMessage = "Todoitem must be between 1 and 3 characters")]
+        [StringLength(300, MinimumLength = 1, ErrorMessage = "TodoItem must be between 1 and 300 characters")]
         public string Title { get; set; }
         public bool IsFinished { get; set; }
         public DateTime DeadlineDate { get; set; }
-        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "Indicate priority from 1 to 3")] 
+        [Range(1, 3, ErrorMessage = "Indicate priority from 1 to 3")] 
         public long? PriorityId { get; set; }
 
-        public static Todoitem MapTodoitem(TodoitemInputModel inputModel)
+        public static TodoItem MapTodoitem(TodoitemInputModel inputModel)
         {
             if (inputModel != null)
             {
-                Todoitem newTodoitem = new Todoitem()
+                TodoItem newTodoitem = new TodoItem()
                 {
                     Title = inputModel.Title,
-                    Isfinished = inputModel.IsFinished ? 1 : 0,
-                    Deadlinedate = inputModel.DeadlineDate.ToString("yyyy/MM/dd hh:mm:ss.fff"),
-                    Priorityid = inputModel.PriorityId                     
+                    IsFinished = inputModel.IsFinished ? 1 : 0,
+                    DeadlineDate = inputModel.DeadlineDate.ToString("yyyy/MM/dd hh:mm:ss.fff"),
+                    PriorityId = inputModel.PriorityId                     
                 };
 
                 return newTodoitem;
             }
             
-            throw new NullReferenceException();
+            throw new NullReferenceException("TodoItemInputModel was null");
         }
     }
 }

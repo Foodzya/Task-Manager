@@ -10,14 +10,14 @@ namespace Taskmanager.Controllers.InputModels
         [StringLength(100, MinimumLength = 1, ErrorMessage = "Todolist's title must be between 1 and 100 characters")]
         public string Title { get; set; }
 
-        public static Todolist MapTodolist(TodolistInputModel inputModel)
+        public static TodoList MapTodolist(TodolistInputModel inputModel)
         {
             if (inputModel != null)
             {
-                return new Todolist() { Title = inputModel.Title };
+                return new TodoList() { Title = inputModel.Title };
             }
 
-            throw new NullReferenceException();
+            throw new NullReferenceException("TodoListInputModel was null");
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Taskmanager.Controllers.InputModels
                 return new Note{ Body = inputModel.Body };
             }
 
-            throw new NullReferenceException();
+            throw new NullReferenceException("Input model was null");
         }
     }
 }

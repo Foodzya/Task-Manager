@@ -5,7 +5,6 @@ using Taskmanager.Controllers.ViewModels;
 using Taskmanager.Services.Interfaces;
 using System.Linq;
 using Taskmanager.Data.Entities;
-using System;
 
 namespace Taskmanager.Controllers
 {
@@ -33,12 +32,7 @@ namespace Taskmanager.Controllers
         {
             List<Priority> priorities = await _priorityService.GetAllAsync();
 
-            Func<Priority, PriorityViewModel> priorityMapping = delegate(Priority priority) 
-            {
-                return PriorityViewModel.MapPriority(priority);
-            };
-
-            return Ok(priorities.Select(priorityMapping).ToList());
+            return Ok(priorities.Select(PriorityViewModel.MapPriority).ToList());
         }
     }
 }

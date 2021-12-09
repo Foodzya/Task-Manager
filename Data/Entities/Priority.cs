@@ -6,12 +6,12 @@ namespace Taskmanager.Data.Entities
     {
         public Priority()
         {
-            Todoitems = new HashSet<Todoitem>();
+            TodoItems = new HashSet<TodoItem>();
         }
 
         public long Id { get; set; }
         public string Title { get; set; }
 
-        public virtual ICollection<Todoitem> Todoitems { get; set; }
+        public virtual ICollection<TodoItem> TodoItems { get; set; }
     }
 }

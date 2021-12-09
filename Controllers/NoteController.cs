@@ -21,7 +21,7 @@ namespace Taskmanager.Controllers
         [HttpGet("{todoitemId}")]
         public async Task<ActionResult<NoteViewModel>> GetByIdAsync([FromRoute] int todoitemId)
         {
-            Note requiredNote = await _noteService.GetOneAsync(todoitemId);
+            Note requiredNote = await _noteService.GetByIdAsync(todoitemId);
 
             return Ok(NoteViewModel.MapNote(requiredNote));
         }

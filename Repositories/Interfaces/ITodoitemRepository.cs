@@ -6,10 +6,10 @@ namespace Taskmanager.Repositories.Interfaces
 {
     public interface ITodoitemRepository
     {
-        public Task<Todoitem> GetByIdAsync(int todoitemId);
-        public Task<List<Todoitem>> GetAllAsync(int userId, int todolistId);
-        public Task AddAsync(int todolistId, Todoitem todoitem);
-        public Task UpdateAsync(int todoitemId, Todoitem todoitem);
-        public Task DeleteAsync(int todoitemId);
+        public Task<TodoItem> GetByIdAsync(int todoItemId);
+        public Task<List<TodoItem>> GetAllAsync(int todoListId);
+        public Task AddAsync(int todoListId, TodoItem todoItem);
+        public Task UpdateAsync(int todoItemId, TodoItem todoItem);
+        public Task DeleteAsync(int todoItemId);
     }
 }

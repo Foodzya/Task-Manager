@@ -18,17 +18,17 @@ namespace Taskmanager.Services
             _todoitemRepository = todoitemRepository;
         }
 
-        public async Task AddAsync(Todolist todolist, int userId)
+        public async Task AddAsync(TodoList todolist, int userId)
         {
-            todolist.Creationdate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            todolist.Userid = userId;
+            todolist.CreationDate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            todolist.UserId = userId;
 
             await _todolistRepository.AddAsync(todolist);
         }
 
         public async Task DeleteAsync(int userId, int todolistId)
         {
-            if (GetByIdAsync(todolistId, userId) != null)
+            if (GetByIdAsync(todolistId) != null)
             {
                 await _todolistRepository.DeleteAsync(userId, todolistId);
             }
@@ -36,19 +36,19 @@ namespace Taskmanager.Services
             throw new Exception("Todolist not found");
         }
 
-        public async Task<List<Todolist>> GetAllAsync(int userId)
+        public async Task<List<TodoList>> GetAllAsync(int userId)
         {
             return await _todolistRepository.GetAllAsync(userId);
         }
 
-        public async Task<Todolist> GetByIdAsync(int listId, int userId)
+        public async Task<TodoList> GetByIdAsync(int todoListId)
         {
-            return await _todolistRepository.GetByIdAsync(listId, userId);
+            return await _todolistRepository.GetByIdAsync(todoListId);
         }
 
-        public async Task UpdateAsync(int userId, int updatableTodolist, Todolist updatedTodolist)
+        public async Task UpdateAsync(int todoListId, TodoList todoList)
         {
-            await _todolistRepository.UpdateAsync(userId, updatableTodolist, updatedTodolist);
+            await _todolistRepository.UpdateAsync(todoListId, todoList);
         }
     }
 }

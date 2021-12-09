@@ -21,12 +21,12 @@ namespace Taskmanager.Controllers
             _todolistService = todolistService;
         }
 
-        [HttpGet("{userId}/{todolistId}")]
-        public async Task<ActionResult<TodolistViewModel>> GetOneById([FromRoute] int todolistId, [FromRoute] int userId)
+        [HttpGet("{todoListId}")]
+        public async Task<ActionResult<TodolistViewModel>> GetOneById([FromRoute] int todoListId)
         {
-            Todolist requestedTodolist = await _todolistService.GetByIdAsync(todolistId, userId);
+            TodoList todoList = await _todolistService.GetByIdAsync(todoListId);
 
-            TodolistViewModel todolistViewModel = TodolistViewModel.MapTodolist(requestedTodolist);
+            TodolistViewModel todolistViewModel = TodolistViewModel.MapTodolist(todoList);
 
             return Ok(todolistViewModel);
         }
@@ -34,9 +34,9 @@ namespace Taskmanager.Controllers
         [HttpGet("{userId}")]
         public async Task<ActionResult<List<TodolistViewModel>>> GetAllAsync([FromRoute] int userId)
         {
-            List<Todolist> listOfTodolists = await _todolistService.GetAllAsync(userId);
+            List<TodoList> listOfTodolists = await _todolistService.GetAllAsync(userId);
 
-            Func<Todolist, TodolistViewModel> todolistViewModelMapper = delegate (Todolist todolist)
+            Func<TodoList, TodolistViewModel> todolistViewModelMapper = delegate (TodoList todolist)
             {
                 return TodolistViewModel.MapTodolist(todolist); 
             };
@@ -47,7 +47,7 @@ namespace Taskmanager.Controllers
         [HttpPost("{userId}")]
         public async Task<ActionResult> AddAsync([FromRoute] int userId, [FromBody] TodolistInputModel inputModel)
         {
-            Todolist newTodolist = TodolistInputModel.MapTodolist(inputModel);
+            TodoList newTodolist = TodolistInputModel.MapTodolist(inputModel);
 
             await _todolistService.AddAsync(newTodolist, userId);
 
@@ -65,7 +65,7 @@ namespace Taskmanager.Controllers
         [HttpPut("{userId}/{todolistId}")]
         public async Task<ActionResult> UpdateAsync([FromRoute] int userId, [FromRoute] int todolistId, [FromBody] TodolistInputModel inputModel)
         {
-            Todolist updatableTodolist = TodolistInputModel.MapTodolist(inputModel);
+            TodoList updatableTodolist = TodolistInputModel.MapTodolist(inputModel);
 
             await _todolistService.UpdateAsync(userId, todolistId, updatableTodolist);
 

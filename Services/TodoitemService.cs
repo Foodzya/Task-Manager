@@ -15,7 +15,7 @@ namespace Taskmanager.Services
             _todoitemRepository = todoitemRepository;
         }
 
-        public async Task AddAsync(int todolistId, Todoitem todoitem)
+        public async Task AddAsync(int todolistId, TodoItem todoitem)
         {
             await _todoitemRepository.AddAsync(todolistId, todoitem);
         }
@@ -25,17 +25,17 @@ namespace Taskmanager.Services
             await _todoitemRepository.DeleteAsync(todoitemId);
         }
 
-        public async Task<List<Todoitem>> GetAllAsync(int userId, int todolistId)
+        public async Task<List<TodoItem>> GetAllAsync(int todoListId)
         {
-           return await  _todoitemRepository.GetAllAsync(userId, todolistId);
+           return await  _todoitemRepository.GetAllAsync(todoListId);
         }
 
-        public async Task<Todoitem> GetByIdAsync(int itemId)
+        public async Task<TodoItem> GetByIdAsync(int itemId)
         {
             return await _todoitemRepository.GetByIdAsync(itemId); 
         }
 
-        public async Task UpdateAsync(int todoitemId, Todoitem todoitem)
+        public async Task UpdateAsync(int todoitemId, TodoItem todoitem)
         {
             await _todoitemRepository.UpdateAsync(todoitemId, todoitem);
         }

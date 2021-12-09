@@ -14,7 +14,7 @@ namespace Taskmanager.Controllers.ViewModels
                 return new NoteViewModel{ Body = note.Body };
             }
 
-            throw new NullReferenceException();
+            throw new NullReferenceException("Note was null");
         }
     }
 }

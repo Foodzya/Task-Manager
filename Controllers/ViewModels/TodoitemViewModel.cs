@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using Taskmanager.Data.Entities;
 
 namespace Taskmanager.Controllers.ViewModels
@@ -11,19 +10,19 @@ namespace Taskmanager.Controllers.ViewModels
         public DateTime DeadlineDate { get; set; }
         public long? PriorityId { get; set; }
 
-        public static TodoitemViewModel MapTodoitem(Todoitem todoitem)
+        public static TodoitemViewModel MapTodoitem(TodoItem todoitem)
         {
             if (todoitem != null)
             {
                 return new TodoitemViewModel
                 { 
                     Title = todoitem.Title, 
-                    IsFinished = todoitem.Isfinished == 1 ? true : false, 
-                    DeadlineDate = Convert.ToDateTime(todoitem.Deadlinedate), 
-                    PriorityId = todoitem.Priorityid};
+                    IsFinished = todoitem.IsFinished == 1, 
+                    DeadlineDate = Convert.ToDateTime(todoitem.DeadlineDate), 
+                    PriorityId = todoitem.PriorityId};
             }
 
-            throw new NullReferenceException();
+            throw new NullReferenceException("TodoItem was null");
         }
     }
 }

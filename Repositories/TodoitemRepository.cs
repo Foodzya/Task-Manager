@@ -17,49 +17,48 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(int todolistId, Todoitem todoitem)
+        public async Task AddAsync(int todolistId, TodoItem todoitem)
         {
-            todoitem.Todolistid = todolistId;
+            todoitem.TodoListId = todolistId;
 
-            _context.Todoitems.Add(todoitem);
+            _context.TodoItems.Add(todoitem);
 
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int todoitemId)
         {
-            Todoitem deletableTodoitem = await _context.Todoitems.FirstOrDefaultAsync(item => item.Id == todoitemId);
+            TodoItem deletableTodoitem = await _context.TodoItems.FirstOrDefaultAsync(item => item.Id == todoitemId);
 
-            _context.Todoitems.Remove(deletableTodoitem);
+            _context.TodoItems.Remove(deletableTodoitem);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Todoitem>> GetAllAsync(int userId, int todolistId)
+        public async Task<List<TodoItem>> GetAllAsync(int todoListId)
         {
-            Todolist todolistWithRequiredItems = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == todolistId && list.Userid == userId);
+            List<TodoItem> listOfTodoItems = await _context.TodoItems.Where(todoItem => todoItem.TodoListId == todoListId).ToListAsync();
 
-            return await _context.Todoitems.Where(item => item.Todolistid == todolistWithRequiredItems.Id).ToListAsync();
-            
+            return listOfTodoItems;            
         }
 
-        public async Task<Todoitem> GetByIdAsync(int todoitemId)
+        public async Task<TodoItem> GetByIdAsync(int todoitemId)
         {
-            Todoitem requestedTodoitem = await _context.Todoitems.FirstOrDefaultAsync(todoitem => todoitem.Id == todoitemId);
+            TodoItem requestedTodoitem = await _context.TodoItems.FirstOrDefaultAsync(todoitem => todoitem.Id == todoitemId);
 
             return requestedTodoitem;
         }
 
-        public async Task UpdateAsync(int todoitemId, Todoitem item)
+        public async Task UpdateAsync(int todoitemId, TodoItem item)
         {
-            Todoitem updatableTodoitem = await _context.Todoitems.FirstOrDefaultAsync(item => item.Id == todoitemId);
+            TodoItem updatableTodoitem = await _context.TodoItems.FirstOrDefaultAsync(item => item.Id == todoitemId);
 
             if (updatableTodoitem != null)
             {
-                updatableTodoitem.Isfinished = item.Isfinished;
-                updatableTodoitem.Priorityid = item.Priorityid;
+                updatableTodoitem.IsFinished = item.IsFinished;
+                updatableTodoitem.PriorityId = item.PriorityId;
                 updatableTodoitem.Title = item.Title;
-                updatableTodoitem.Deadlinedate = item.Deadlinedate;
+                updatableTodoitem.DeadlineDate = item.DeadlineDate;
             }
 
             await _context.SaveChangesAsync();

@@ -10,7 +10,7 @@ using Taskmanager.Repositories.Interfaces;
 using Taskmanager.Services;
 using Taskmanager.Services.Interfaces;
 
-namespace TodoList
+namespace Taskmanager
 {
     public class Startup
     {

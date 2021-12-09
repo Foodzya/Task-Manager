@@ -2,19 +2,19 @@
 
 namespace Taskmanager.Data.Entities
 {
-    public partial class Todolist
+    public partial class TodoList
     {
-        public Todolist()
+        public TodoList()
         {
-            Todoitems = new HashSet<Todoitem>();
+            TodoItems = new HashSet<TodoItem>();
         }
 
         public long Id { get; set; }
         public string Title { get; set; }
-        public string Creationdate { get; set; }
-        public long? Userid { get; set; }
+        public string CreationDate { get; set; }
+        public long UserId { get; set; }
 
         public virtual User User { get; set; }
-        public virtual ICollection<Todoitem> Todoitems { get; set; }
+        public virtual ICollection<TodoItem> TodoItems { get; set; }
     }
 }

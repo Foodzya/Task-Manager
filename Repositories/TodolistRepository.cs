@@ -17,41 +17,41 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(Todolist todolist)
+        public async Task AddAsync(TodoList todolist)
         {
-            _context.Todolists.Add(todolist);
+            _context.TodoLists.Add(todolist);
 
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int userId, int todolistId)
         {
-            Todolist deletableTodolist = await _context.Todolists.FirstAsync(list => list.Userid == userId && list.Id == todolistId);
+            TodoList deletableTodolist = await _context.TodoLists.FirstAsync(list => list.UserId == userId && list.Id == todolistId);
 
-            _context.Todolists.Remove(deletableTodolist);
+            _context.TodoLists.Remove(deletableTodolist);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Todolist>> GetAllAsync(int userId)
+        public async Task<List<TodoList>> GetAllAsync(int userId)
         {
-            return await _context.Todolists.Where(list => list.Userid == userId).ToListAsync();
+            return await _context.TodoLists.Where(list => list.UserId == userId).ToListAsync();
         }
 
-        public async Task<Todolist> GetByIdAsync(int listId, int userId)
+        public async Task<TodoList> GetByIdAsync(int todoListId)
         {
-            Todolist list = await _context.Todolists.Where(list => list.Userid == userId).SingleAsync(list => list.Id == listId);
+            TodoList todoList = await _context.TodoLists.FirstOrDefaultAsync(todoList => todoList.Id == todoListId);
 
-            return await _context.Todolists.FirstAsync(t => t.Id == listId);
+            return todoList;
         }
 
-        public async Task UpdateAsync(int userId, int idOfUpdatableTodolist, Todolist updatedTodolist)
+        public async Task UpdateAsync(int todoListId, TodoList todoList)
         {
-            Todolist todolistToBeUpdated = await _context.Todolists.FirstOrDefaultAsync(list => list.Id == idOfUpdatableTodolist && list.Userid == userId);
+            TodoList todolistToBeUpdated = await _context.TodoLists.FirstOrDefaultAsync(list => list.Id == todoListId);
 
             if (todolistToBeUpdated != null)
             {
-                todolistToBeUpdated.Title = updatedTodolist.Title;
+                todolistToBeUpdated.Title = todoList.Title;
             }
 
             await _context.SaveChangesAsync();

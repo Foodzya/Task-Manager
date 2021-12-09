@@ -8,31 +8,31 @@ namespace Taskmanager.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepo;
+        private readonly IUserRepository _userRepository;
 
-        public UserService(IUserRepository userRepo)
+        public UserService(IUserRepository userRepository)
         {
-            _userRepo = userRepo;
+            _userRepository = userRepository;
         }
 
         public async Task AddAsync(User user)
         {
-            await _userRepo.AddAsync(user);
+            await _userRepository.AddAsync(user);
         }
 
         public async Task<List<User>> GetAllAsync()
         {
-            return await _userRepo.GetAllAsync();
+            return await _userRepository.GetAllAsync();
         }
 
         public async Task<User> GetByIdAsync(int id)
         {
-            return await _userRepo.GetByIdAsync(id);
+            return await _userRepository.GetByIdAsync(id);
         }
 
         public async Task UpdateAsync(int idOfUpdatableUser, User updatedUser)
         {
-            await _userRepo.UpdateAsync(idOfUpdatableUser, updatedUser);
+            await _userRepository.UpdateAsync(idOfUpdatableUser, updatedUser);
         }
     }
 }

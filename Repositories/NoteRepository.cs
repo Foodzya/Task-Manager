@@ -18,7 +18,7 @@ namespace Taskmanager.Repositories
 
         public async Task AddAsync(int todoitemId, Note note)
         {
-            note.Todoitemid = todoitemId;
+            note.TodoItemId = todoitemId;
 
             _context.Notes.Add(note);
 
@@ -41,7 +41,7 @@ namespace Taskmanager.Repositories
 
         public async Task<Note> GetOneAsync(int todoitemId)
         {
-            Note requestedNote = await _context.Notes.FirstOrDefaultAsync(note => note.Todoitemid == todoitemId);
+            Note requestedNote = await _context.Notes.FirstOrDefaultAsync(note => note.TodoItemId == todoitemId);
 
             return requestedNote;
         }

@@ -16,8 +16,8 @@ namespace Taskmanager.Data.Context
 
         public virtual DbSet<Note> Notes { get; set; }
         public virtual DbSet<Priority> Priorities { get; set; }
-        public virtual DbSet<Todoitem> Todoitems { get; set; }
-        public virtual DbSet<Todolist> Todolists { get; set; }
+        public virtual DbSet<TodoItem> TodoItems { get; set; }
+        public virtual DbSet<TodoList> TodoLists { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,109 +32,62 @@ namespace Taskmanager.Data.Context
         {
             modelBuilder.Entity<Note>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnType("integer");
 
-                entity.Property(e => e.Body)
-                    .IsRequired()
-                    .HasColumnName("BODY");
+                entity.Property(e => e.Body).IsRequired();
 
-                entity.Property(e => e.Todoitemid).HasColumnName("TODOITEMID");
-
-                entity.HasOne(d => d.Todoitem)
+                entity.HasOne(d => d.TodoItem)
                     .WithMany(p => p.Notes)
-                    .HasForeignKey(d => d.Todoitemid)
+                    .HasForeignKey(d => d.TodoItemId)
                     .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<Priority>(entity =>
             {
-                entity.ToTable("PRIORITIES");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasColumnName("TITLE");
+                entity.Property(e => e.Title).IsRequired();
             });
 
-            modelBuilder.Entity<Todoitem>(entity =>
+            modelBuilder.Entity<TodoItem>(entity =>
             {
-                entity.ToTable("TODOITEMS");
+                entity.Property(e => e.IsFinished).HasColumnType("TINYINT");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Deadlinedate).HasColumnName("DEADLINEDATE");
-
-                entity.Property(e => e.Isfinished)
-                    .HasColumnType("TINYINT")
-                    .HasColumnName("ISFINISHED");
-
-                entity.Property(e => e.Noteid).HasColumnName("NOTEID");
-
-                entity.Property(e => e.Priorityid).HasColumnName("PRIORITYID");
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasColumnName("TITLE");
-
-                entity.Property(e => e.Todolistid).HasColumnName("TODOLISTID");
+                entity.Property(e => e.Title).IsRequired();
 
                 entity.HasOne(d => d.Note)
-                    .WithMany(p => p.Todoitems)
-                    .HasForeignKey(d => d.Noteid)
+                    .WithMany(p => p.TodoItems)
+                    .HasForeignKey(d => d.NoteId)
                     .OnDelete(DeleteBehavior.SetNull);
 
                 entity.HasOne(d => d.Priority)
-                    .WithMany(p => p.Todoitems)
-                    .HasForeignKey(d => d.Priorityid);
+                    .WithMany(p => p.TodoItems)
+                    .HasForeignKey(d => d.PriorityId);
 
-                entity.HasOne(d => d.Todolist)
-                    .WithMany(p => p.Todoitems)
-                    .HasForeignKey(d => d.Todolistid);
+                entity.HasOne(d => d.TodoList)
+                    .WithMany(p => p.TodoItems)
+                    .HasForeignKey(d => d.TodoListId);
             });
 
-            modelBuilder.Entity<Todolist>(entity =>
+            modelBuilder.Entity<TodoList>(entity =>
             {
-                entity.ToTable("TODOLISTS");
+                entity.Property(e => e.CreationDate).IsRequired();
 
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Creationdate)
-                    .IsRequired()
-                    .HasColumnName("CREATIONDATE");
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasColumnName("TITLE");
-
-                entity.Property(e => e.Userid).HasColumnName("USERID");
+                entity.Property(e => e.Title).IsRequired();
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.Todolists)
-                    .HasForeignKey(d => d.Userid)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .WithMany(p => p.TodoLists)
+                    .HasForeignKey(d => d.UserId);
             });
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.ToTable("USERS");
-
-                entity.HasIndex(e => e.Email, "IX_USERS_EMAIL")
+                entity.HasIndex(e => e.Email, "IX_Users_Email")
                     .IsUnique();
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.Email).IsRequired();
 
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasColumnName("EMAIL");
+                entity.Property(e => e.Password).IsRequired();
 
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasColumnName("PASSWORD");
-
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .HasColumnName("USERNAME");
+                entity.Property(e => e.Username).IsRequired();
             });
 
             OnModelCreatingPartial(modelBuilder);

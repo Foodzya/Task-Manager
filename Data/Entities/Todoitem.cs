@@ -2,24 +2,24 @@
 
 namespace Taskmanager.Data.Entities
 {
-    public partial class Todoitem
+    public partial class TodoItem
     {
-        public Todoitem()
+        public TodoItem()
         {
             Notes = new HashSet<Note>();
         }
 
         public long Id { get; set; }
         public string Title { get; set; }
-        public long Isfinished { get; set; }
-        public string Deadlinedate { get; set; }
-        public long? Priorityid { get; set; }
-        public long? Noteid { get; set; }
-        public long Todolistid { get; set; }
+        public long IsFinished { get; set; }
+        public string DeadlineDate { get; set; }
+        public long? PriorityId { get; set; }
+        public long? NoteId { get; set; }
+        public long TodoListId { get; set; }
 
         public virtual Note Note { get; set; }
         public virtual Priority Priority { get; set; }
-        public virtual Todolist Todolist { get; set; }
+        public virtual TodoList TodoList { get; set; }
         public virtual ICollection<Note> Notes { get; set; }
     }
 }
