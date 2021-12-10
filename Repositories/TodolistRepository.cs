@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,20 +18,27 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(TodoList todolist)
+        public async Task AddAsync(TodoList todoList)
         {
-            _context.TodoLists.Add(todolist);
+            _context.TodoLists.Add(todoList);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int userId, int todolistId)
+        public async Task DeleteAsync(int todoListId)
         {
-            TodoList deletableTodolist = await _context.TodoLists.FirstAsync(list => list.UserId == userId && list.Id == todolistId);
+            TodoList todoList = await _context.TodoLists.FirstOrDefaultAsync(todoList => todoList.Id == todoListId);
 
-            _context.TodoLists.Remove(deletableTodolist);
+            if (todoList != null)
+            {
+                _context.TodoLists.Remove(todoList);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new NullReferenceException("TodoList with the specified ID is missing");
+            }
         }
 
         public async Task<List<TodoList>> GetAllAsync(int userId)
@@ -45,16 +53,20 @@ namespace Taskmanager.Repositories
             return todoList;
         }
 
-        public async Task UpdateAsync(int todoListId, TodoList todoList)
+        public async Task UpdateAsync(int todoListId, TodoList newTodoList)
         {
-            TodoList todolistToBeUpdated = await _context.TodoLists.FirstOrDefaultAsync(list => list.Id == todoListId);
+            TodoList todoList = await _context.TodoLists.FirstOrDefaultAsync(t => t.Id == todoListId);
 
-            if (todolistToBeUpdated != null)
+            if (todoList != null)
             {
-                todolistToBeUpdated.Title = todoList.Title;
-            }
+                todoList.Title = newTodoList.Title;
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            else 
+            {
+                throw new NullReferenceException("TodoList with the specified ID not found");
+            }
         }
     }
 }

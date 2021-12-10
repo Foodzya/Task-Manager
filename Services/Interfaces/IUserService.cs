@@ -9,6 +9,6 @@ namespace Taskmanager.Services.Interfaces
         public Task<User> GetByIdAsync(int userId);
         public Task<List<User>> GetAllAsync();
         public Task AddAsync(User user);
-        public Task UpdateAsync(int idOfUpdatableUser, User updatedUser);
+        public Task UpdateAsync(int userId, User user);
     }
 }

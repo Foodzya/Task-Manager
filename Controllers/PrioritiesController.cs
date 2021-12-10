@@ -10,21 +10,21 @@ namespace Taskmanager.Controllers
 {
     [ApiController]
     [Route("api/priorities")]
-    public class PriorityController : ControllerBase
+    public class PrioritiesController : ControllerBase
     {
         private readonly IPriorityService _priorityService;
 
-        public PriorityController(IPriorityService priorityService)
+        public PrioritiesController(IPriorityService priorityService)
         {
             _priorityService = priorityService;
         }
 
         [HttpGet("{priorityId}")]
-        public async Task<ActionResult<PriorityViewModel>> GetOneByIdAsync([FromRoute] int priorityId)
+        public async Task<ActionResult<PriorityViewModel>> GetByIdAsync([FromRoute] int priorityId)
         {
-            Priority requiredPriority = await _priorityService.GetByIdAsync(priorityId);
+            Priority priority = await _priorityService.GetByIdAsync(priorityId);
 
-            return Ok(PriorityViewModel.MapPriority(requiredPriority));
+            return Ok(PriorityViewModel.MapPriority(priority));
         }
 
         [HttpGet]

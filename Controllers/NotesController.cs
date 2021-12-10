@@ -9,29 +9,29 @@ namespace Taskmanager.Controllers
 {
     [ApiController]
     [Route("api/notes")]
-    public class NoteController : ControllerBase
+    public class NotesController : ControllerBase
     {
         private readonly INoteService _noteService;
 
-        public NoteController(INoteService noteService)
+        public NotesController(INoteService noteService)
         {
             _noteService = noteService;
         }
 
-        [HttpGet("{todoitemId}")]
-        public async Task<ActionResult<NoteViewModel>> GetByIdAsync([FromRoute] int todoitemId)
+        [HttpGet("{todoItemId}")]
+        public async Task<ActionResult<NoteViewModel>> GetByIdAsync([FromRoute] int todoItemId)
         {
-            Note requiredNote = await _noteService.GetByIdAsync(todoitemId);
+            Note note = await _noteService.GetByIdAsync(todoItemId);
 
-            return Ok(NoteViewModel.MapNote(requiredNote));
+            return Ok(NoteViewModel.MapNote(note));
         }
 
-        [HttpPost("{todoitemId}")]
-        public async Task<ActionResult> AddAsync ([FromRoute] int todoitemId, [FromBody] NoteInputModel inputModel)
+        [HttpPost("{todoItemId}")]
+        public async Task<ActionResult> AddAsync ([FromRoute] int todoItemId, [FromBody] NoteInputModel inputModel)
         {
             Note note = NoteInputModel.MapNote(inputModel);
 
-            await _noteService.AddAsync(todoitemId, note);
+            await _noteService.AddAsync(todoItemId, note);
 
             return Ok();
         }

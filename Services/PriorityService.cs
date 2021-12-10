@@ -20,9 +20,9 @@ namespace Taskmanager.Services
             return await _priorityRepository.GetAllAsync();
         }
 
-        public async Task<Priority> GetByIdAsync(int id)
+        public async Task<Priority> GetByIdAsync(int priorityId)
         {
-            return await _priorityRepository.GetByIdAsync(id);
+            return await _priorityRepository.GetByIdAsync(priorityId);
         }
     }
 }

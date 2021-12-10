@@ -3,19 +3,19 @@ using Taskmanager.Data.Entities;
 
 namespace Taskmanager.Controllers.ViewModels
 {
-    public class TodolistViewModel
+    public class TodoListViewModel
     {
         public string Title { get; set; }
         public DateTime CreationDate { get; set; }
 
-        public static TodolistViewModel MapTodolist(TodoList todolist)
+        public static TodoListViewModel MapTodoList(TodoList todoList)
         {
-            if (todolist != null)
+            if (todoList != null)
             {
-                return new TodolistViewModel()
+                return new TodoListViewModel()
                 { 
-                    Title = todolist.Title,
-                    CreationDate = Convert.ToDateTime(todolist.CreationDate) 
+                    Title = todoList.Title,
+                    CreationDate = Convert.ToDateTime(todoList.CreationDate) 
                 };
             }
             

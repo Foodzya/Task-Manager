@@ -25,14 +25,14 @@ namespace Taskmanager.Services
             return await _userRepository.GetAllAsync();
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByIdAsync(int userId)
         {
-            return await _userRepository.GetByIdAsync(id);
+            return await _userRepository.GetByIdAsync(userId);
         }
 
-        public async Task UpdateAsync(int idOfUpdatableUser, User updatedUser)
+        public async Task UpdateAsync(int userId, User user)
         {
-            await _userRepository.UpdateAsync(idOfUpdatableUser, updatedUser);
+            await _userRepository.UpdateAsync(userId, user);
         }
     }
 }

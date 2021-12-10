@@ -4,6 +4,7 @@ using Taskmanager.Data.Entities;
 using Taskmanager.Data.Context;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Taskmanager.Repositories
 {
@@ -23,11 +24,20 @@ namespace Taskmanager.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(User user)
+        public async Task DeleteAsync(int userId)
         {
-            _context.Users.Remove(user);
-            
-            await _context.SaveChangesAsync();
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+
+                await _context.SaveChangesAsync();
+            }
+            else 
+            {
+                throw new NullReferenceException("User with the specified ID not found"); 
+            }      
         }
 
         public async Task<List<User>> GetAllAsync()
@@ -35,22 +45,26 @@ namespace Taskmanager.Repositories
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByIdAsync(int userId)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task UpdateAsync(int idOfUpdatableUser, User updatedUser)
+        public async Task UpdateAsync(int userId, User newUser)
         {
-            User updatableUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == idOfUpdatableUser);
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
-            if(updatableUser != null)
+            if (user != null)
             {
-                updatableUser.Username = updatedUser.Username;
-                updatableUser.Password = updatedUser.Password;
-            }
+                user.Username = newUser.Username;
+                user.Password = newUser.Password;
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            else 
+            {
+                throw new NullReferenceException("User with the specified ID not found");
+            }
         }
     }
 }

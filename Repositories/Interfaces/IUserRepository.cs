@@ -9,7 +9,7 @@ namespace Taskmanager.Repositories.Interfaces
         public Task<User> GetByIdAsync(int userId);
         public Task<List<User>> GetAllAsync();
         public Task AddAsync(User user);
-        public Task DeleteAsync(User user);
-        public Task UpdateAsync(int idOfUpdatableUser, User updatedUser);
+        public Task DeleteAsync(int userId);
+        public Task UpdateAsync(int userId, User user);
     }
 }

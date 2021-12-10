@@ -14,14 +14,14 @@ namespace Taskmanager.Services
             _noteRepository = noteRepository;
         }
 
-        public async Task<Note> GetByIdAsync(int todoitemId)
+        public async Task<Note> GetByIdAsync(int todoItemId)
         {
-            return await _noteRepository.GetOneAsync(todoitemId);
+            return await _noteRepository.GetByIdAsync(todoItemId);
         }
 
-        public async Task UpdateAsync(int idOfUpdatableNote, Note updatedNote)
+        public async Task UpdateAsync(int noteId, Note note)
         {
-            await _noteRepository.UpdateAsync(idOfUpdatableNote, updatedNote);
+            await _noteRepository.UpdateAsync(noteId, note);
         }
 
         public async Task DeleteAsync(int noteId)
@@ -29,9 +29,9 @@ namespace Taskmanager.Services
             await _noteRepository.DeleteAsync(noteId);
         }
 
-        public async Task AddAsync(int todoitemId, Note note)
+        public async Task AddAsync(int todoItemId, Note note)
         {
-            await _noteRepository.AddAsync(todoitemId, note);
+            await _noteRepository.AddAsync(todoItemId, note);
         }
     }
 }

@@ -9,46 +9,46 @@ namespace Taskmanager.Services
 {
     public class TodolistService : ITodolistService
     {
-        private readonly ITodolistRepository _todolistRepository;
-        private readonly ITodoitemRepository _todoitemRepository;
+        private readonly ITodolistRepository _todoListRepository;
 
-        public TodolistService(ITodolistRepository todolistRepository, ITodoitemRepository todoitemRepository)
+        public TodolistService(ITodolistRepository todoListRepository)
         {
-            _todolistRepository = todolistRepository;
-            _todoitemRepository = todoitemRepository;
+            _todoListRepository = todoListRepository;
         }
 
-        public async Task AddAsync(TodoList todolist, int userId)
+        public async Task AddAsync(TodoList todoList, int userId)
         {
-            todolist.CreationDate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            todolist.UserId = userId;
+            todoList.CreationDate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            todoList.UserId = userId;
 
-            await _todolistRepository.AddAsync(todolist);
+            await _todoListRepository.AddAsync(todoList);
         }
 
-        public async Task DeleteAsync(int userId, int todolistId)
+        public async Task DeleteAsync(int todoListId)
         {
-            if (GetByIdAsync(todolistId) != null)
+            if (GetByIdAsync(todoListId).Result != null)
             {
-                await _todolistRepository.DeleteAsync(userId, todolistId);
+                await _todoListRepository.DeleteAsync(todoListId);
             }
-
-            throw new Exception("Todolist not found");
+            else
+            {
+                throw new Exception("TodoList with the specified ID is missing");
+            }
         }
 
         public async Task<List<TodoList>> GetAllAsync(int userId)
         {
-            return await _todolistRepository.GetAllAsync(userId);
+            return await _todoListRepository.GetAllAsync(userId);
         }
 
         public async Task<TodoList> GetByIdAsync(int todoListId)
         {
-            return await _todolistRepository.GetByIdAsync(todoListId);
+            return await _todoListRepository.GetByIdAsync(todoListId);
         }
 
         public async Task UpdateAsync(int todoListId, TodoList todoList)
         {
-            await _todolistRepository.UpdateAsync(todoListId, todoList);
+            await _todoListRepository.UpdateAsync(todoListId, todoList);
         }
     }
 }

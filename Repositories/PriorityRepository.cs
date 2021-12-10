@@ -21,9 +21,9 @@ namespace Taskmanager.Repositories
             return await _context.Priorities.ToListAsync();
         }
 
-        public async Task<Priority> GetByIdAsync(int id)
+        public async Task<Priority> GetByIdAsync(int priorityId)
         {
-            return await _context.Priorities.FirstAsync(p => p.Id == id);
+            return await _context.Priorities.FirstAsync(priority => priority.Id == priorityId);
         }
     }
 }

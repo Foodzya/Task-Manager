@@ -8,8 +8,8 @@ namespace Taskmanager.Services.Interfaces
     {
         public Task<TodoList> GetByIdAsync(int todoListId);
         public Task<List<TodoList>> GetAllAsync(int userId);
-        public Task AddAsync(TodoList todolist, int userId);
-        public Task DeleteAsync(int userId, int todolistId);
+        public Task AddAsync(TodoList todoList, int userId);
+        public Task DeleteAsync(int todoListId);
         public Task UpdateAsync(int todoListId, TodoList todoList);
     }
 }

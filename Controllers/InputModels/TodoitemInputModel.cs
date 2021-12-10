@@ -4,7 +4,7 @@ using Taskmanager.Data.Entities;
 
 namespace Taskmanager.Controllers.InputModels
 {
-    public class TodoitemInputModel
+    public class TodoItemInputModel
     {
         [Required]
         [StringLength(300, MinimumLength = 1, ErrorMessage = "TodoItem must be between 1 and 300 characters")]
@@ -14,11 +14,11 @@ namespace Taskmanager.Controllers.InputModels
         [Range(1, 3, ErrorMessage = "Indicate priority from 1 to 3")] 
         public long? PriorityId { get; set; }
 
-        public static TodoItem MapTodoitem(TodoitemInputModel inputModel)
+        public static TodoItem MapTodoitem(TodoItemInputModel inputModel)
         {
             if (inputModel != null)
             {
-                TodoItem newTodoitem = new TodoItem()
+                TodoItem todoItem = new TodoItem()
                 {
                     Title = inputModel.Title,
                     IsFinished = inputModel.IsFinished ? 1 : 0,
@@ -26,7 +26,7 @@ namespace Taskmanager.Controllers.InputModels
                     PriorityId = inputModel.PriorityId                     
                 };
 
-                return newTodoitem;
+                return todoItem;
             }
             
             throw new NullReferenceException("TodoItemInputModel was null");

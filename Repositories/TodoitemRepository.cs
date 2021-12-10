@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,51 +18,62 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(int todolistId, TodoItem todoitem)
+        public async Task AddAsync(int todoListId, TodoItem todoItem)
         {
-            todoitem.TodoListId = todolistId;
+            todoItem.TodoListId = todoListId;
 
-            _context.TodoItems.Add(todoitem);
+            _context.TodoItems.Add(todoItem);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int todoitemId)
+        public async Task DeleteAsync(int todoItemId)
         {
-            TodoItem deletableTodoitem = await _context.TodoItems.FirstOrDefaultAsync(item => item.Id == todoitemId);
+            TodoItem todoItem = await _context.TodoItems.FirstOrDefaultAsync(todoItem => todoItem.Id == todoItemId);
 
-            _context.TodoItems.Remove(deletableTodoitem);
+            if (todoItem != null)
+            {
+                _context.TodoItems.Remove(todoItem);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            else 
+            {
+                throw new NullReferenceException("TodoItem with the specified ID not found");
+            }      
         }
 
         public async Task<List<TodoItem>> GetAllAsync(int todoListId)
         {
-            List<TodoItem> listOfTodoItems = await _context.TodoItems.Where(todoItem => todoItem.TodoListId == todoListId).ToListAsync();
+            List<TodoItem> todoItems = await _context.TodoItems.Where(todoItem => todoItem.TodoListId == todoListId).ToListAsync();
 
-            return listOfTodoItems;            
+            return todoItems;            
         }
 
-        public async Task<TodoItem> GetByIdAsync(int todoitemId)
+        public async Task<TodoItem> GetByIdAsync(int todoItemId)
         {
-            TodoItem requestedTodoitem = await _context.TodoItems.FirstOrDefaultAsync(todoitem => todoitem.Id == todoitemId);
+            TodoItem todoItem = await _context.TodoItems.FirstOrDefaultAsync(todoItem => todoItem.Id == todoItemId);
 
-            return requestedTodoitem;
+            return todoItem;
         }
 
-        public async Task UpdateAsync(int todoitemId, TodoItem item)
+        public async Task UpdateAsync(int todoItemId, TodoItem newTodoItem)
         {
-            TodoItem updatableTodoitem = await _context.TodoItems.FirstOrDefaultAsync(item => item.Id == todoitemId);
+            TodoItem todoItem = await _context.TodoItems.FirstOrDefaultAsync(item => item.Id == todoItemId);
 
-            if (updatableTodoitem != null)
+            if (todoItem != null)
             {
-                updatableTodoitem.IsFinished = item.IsFinished;
-                updatableTodoitem.PriorityId = item.PriorityId;
-                updatableTodoitem.Title = item.Title;
-                updatableTodoitem.DeadlineDate = item.DeadlineDate;
-            }
+                todoItem.IsFinished = newTodoItem.IsFinished;
+                todoItem.PriorityId = newTodoItem.PriorityId;
+                todoItem.Title = newTodoItem.Title;
+                todoItem.DeadlineDate = newTodoItem.DeadlineDate;
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            else 
+            {
+                throw new NullReferenceException("TodoItem with the specified ID not found");
+            }
         }
     }
 }

@@ -17,12 +17,18 @@ namespace Taskmanager.Controllers.InputModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        public static User MapUser(UserInputModel newUser)
+        public static User MapUser(UserInputModel inputModel)
         {
-            if (newUser != null)
+            if (inputModel != null)
             {
-                return new User() { Email = newUser.Email, Password = newUser.Password, Username = newUser.Username };
+                return new User() 
+                { 
+                    Email = inputModel.Email, 
+                    Password = inputModel.Password, 
+                    Username = inputModel.Username 
+                };
             }
+            
             throw new NullReferenceException("UserInputModel");
         }
     }

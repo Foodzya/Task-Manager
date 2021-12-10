@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +17,9 @@ namespace Taskmanager.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(int todoitemId, Note note)
+        public async Task AddAsync(int todoItemId, Note note)
         {
-            note.TodoItemId = todoitemId;
+            note.TodoItemId = todoItemId;
 
             _context.Notes.Add(note);
 
@@ -27,11 +28,18 @@ namespace Taskmanager.Repositories
 
         public async Task DeleteAsync(int noteId)
         {
-            Note deletableNote = await _context.Notes.FirstOrDefaultAsync(note => note.Id == noteId);
+            Note note = await _context.Notes.FirstOrDefaultAsync(note => note.Id == noteId);
 
-            _context.Notes.Remove(deletableNote);
+            if (note != null)
+            {
+                _context.Notes.Remove(note);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            else 
+            {
+                throw new NullReferenceException("Note with the specified ID not found");
+            }
         }
 
         public async Task<List<Note>> GetAllAsync()
@@ -39,23 +47,27 @@ namespace Taskmanager.Repositories
             return await _context.Notes.ToListAsync();
         }
 
-        public async Task<Note> GetOneAsync(int todoitemId)
+        public async Task<Note> GetByIdAsync(int todoItemId)
         {
-            Note requestedNote = await _context.Notes.FirstOrDefaultAsync(note => note.TodoItemId == todoitemId);
+            Note note = await _context.Notes.FirstOrDefaultAsync(note => note.TodoItemId == todoItemId);
 
-            return requestedNote;
+            return note;
         }
 
-        public async Task UpdateAsync(int idOfUpdatableNote, Note updatedNote)
+        public async Task UpdateAsync(int noteId, Note newNote)
         {
-            Note updatableNote = await _context.Notes.FirstOrDefaultAsync(n => n.Id.Equals(idOfUpdatableNote));
+            Note note = await _context.Notes.FirstOrDefaultAsync(n => n.Id.Equals(noteId));
 
-            if(updatableNote != null)
+            if(note != null)
             {
-                updatableNote.Body = updatedNote.Body;
-            }
+                note.Body = newNote.Body;
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            else 
+            {
+                throw new NullReferenceException("Note with the specified ID not found");
+            }
         }
     }
 }

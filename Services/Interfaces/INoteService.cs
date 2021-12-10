@@ -5,9 +5,9 @@ namespace Taskmanager.Services.Interfaces
 {
     public interface INoteService
     {
-        public Task<Note> GetByIdAsync(int todoitemId);
-        public Task AddAsync(int todoitemId, Note note);
-        public Task UpdateAsync(int idOfUpdatableNote, Note updatedNote);
+        public Task<Note> GetByIdAsync(int todoItemId);
+        public Task AddAsync(int todoItemId, Note note);
+        public Task UpdateAsync(int noteId, Note note);
         public Task DeleteAsync(int noteId);
     }
 }
