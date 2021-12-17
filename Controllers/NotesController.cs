@@ -18,16 +18,16 @@ namespace Taskmanager.Controllers
             _noteService = noteService;
         }
 
-        [HttpGet("{todoItemId}")]
-        public async Task<ActionResult<NoteViewModel>> GetByIdAsync([FromRoute] int todoItemId)
+        [HttpGet("{noteId}")]
+        public async Task<ActionResult<NoteViewModel>> GetByIdAsync([FromRoute] int noteId)
         {
-            Note note = await _noteService.GetByIdAsync(todoItemId);
+            Note note = await _noteService.GetByIdAsync(noteId);
 
             return Ok(NoteViewModel.MapNote(note));
         }
 
         [HttpPost("{todoItemId}")]
-        public async Task<ActionResult> AddAsync ([FromRoute] int todoItemId, [FromBody] NoteInputModel inputModel)
+        public async Task<ActionResult> AddAsync([FromRoute] int todoItemId, [FromBody] NoteInputModel inputModel)
         {
             Note note = NoteInputModel.MapNote(inputModel);
 

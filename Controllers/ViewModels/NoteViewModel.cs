@@ -11,7 +11,10 @@ namespace Taskmanager.Controllers.ViewModels
         {
             if (note != null)
             {
-                return new NoteViewModel{ Body = note.Body };
+                return new NoteViewModel
+                { 
+                    Body = note.Body
+                };
             }
 
             throw new NullReferenceException("Note was null");

@@ -14,7 +14,10 @@ namespace Taskmanager.Controllers.InputModels
         {
             if (inputModel != null)
             {
-                return new Note{ Body = inputModel.Body };
+                return new Note 
+                { 
+                    Body = inputModel.Body
+                };
             }
 
             throw new NullReferenceException("Input model was null");

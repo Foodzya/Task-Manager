@@ -11,7 +11,10 @@ namespace Taskmanager.Controllers.ViewModels
         {
             if (priority != null)
             {
-                return new PriorityViewModel{ Title = priority.Title };
+                return new PriorityViewModel
+                { 
+                    Title = priority.Title
+                };
             }
 
             throw new NullReferenceException("Priority was null");

@@ -19,7 +19,8 @@ namespace Taskmanager.Controllers.ViewModels
                     Title = todoItem.Title, 
                     IsFinished = todoItem.IsFinished == 1, 
                     DeadlineDate = Convert.ToDateTime(todoItem.DeadlineDate), 
-                    PriorityId = todoItem.PriorityId};
+                    PriorityId = todoItem.PriorityId
+                };
             }
 
             throw new NullReferenceException("TodoItem was null");

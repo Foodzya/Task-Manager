@@ -47,9 +47,9 @@ namespace Taskmanager.Repositories
             return await _context.Notes.ToListAsync();
         }
 
-        public async Task<Note> GetByIdAsync(int todoItemId)
+        public async Task<Note> GetByIdAsync(int noteId)
         {
-            Note note = await _context.Notes.FirstOrDefaultAsync(note => note.TodoItemId == todoItemId);
+            Note note = await _context.Notes.FirstOrDefaultAsync(note => note.Id == noteId);
 
             return note;
         }
@@ -58,7 +58,7 @@ namespace Taskmanager.Repositories
         {
             Note note = await _context.Notes.FirstOrDefaultAsync(n => n.Id.Equals(noteId));
 
-            if(note != null)
+            if (note != null)
             {
                 note.Body = newNote.Body;
 

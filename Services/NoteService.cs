@@ -14,9 +14,9 @@ namespace Taskmanager.Services
             _noteRepository = noteRepository;
         }
 
-        public async Task<Note> GetByIdAsync(int todoItemId)
+        public async Task<Note> GetByIdAsync(int noteId)
         {
-            return await _noteRepository.GetByIdAsync(todoItemId);
+            return await _noteRepository.GetByIdAsync(noteId);
         }
 
         public async Task UpdateAsync(int noteId, Note note)

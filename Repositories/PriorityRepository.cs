@@ -23,7 +23,7 @@ namespace Taskmanager.Repositories
 
         public async Task<Priority> GetByIdAsync(int priorityId)
         {
-            return await _context.Priorities.FirstAsync(priority => priority.Id == priorityId);
+            return await _context.Priorities.FirstOrDefaultAsync(priority => priority.Id == priorityId);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Taskmanager.Controllers.InputModels
         {
             if (inputModel != null)
             {
-                return new User() 
+                return new User 
                 { 
                     Email = inputModel.Email, 
                     Password = inputModel.Password, 

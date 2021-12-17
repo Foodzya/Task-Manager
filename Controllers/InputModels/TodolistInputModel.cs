@@ -14,7 +14,10 @@ namespace Taskmanager.Controllers.InputModels
         {
             if (inputModel != null)
             {
-                return new TodoList() { Title = inputModel.Title };
+                return new TodoList
+                { 
+                    Title = inputModel.Title
+                };
             }
 
             throw new NullReferenceException("TodoListInputModel was null");

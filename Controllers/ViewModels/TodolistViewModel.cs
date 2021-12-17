@@ -12,7 +12,7 @@ namespace Taskmanager.Controllers.ViewModels
         {
             if (todoList != null)
             {
-                return new TodoListViewModel()
+                return new TodoListViewModel
                 { 
                     Title = todoList.Title,
                     CreationDate = Convert.ToDateTime(todoList.CreationDate) 

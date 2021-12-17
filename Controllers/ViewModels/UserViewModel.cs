@@ -12,7 +12,7 @@ namespace Taskmanager.Controllers.ViewModels
         {
             if (user != null)
             {
-                return new UserViewModel() 
+                return new UserViewModel
                 { 
                     Email = user.Email, 
                     Username = user.Username 

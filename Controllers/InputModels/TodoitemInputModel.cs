@@ -18,15 +18,13 @@ namespace Taskmanager.Controllers.InputModels
         {
             if (inputModel != null)
             {
-                TodoItem todoItem = new TodoItem()
+                return new TodoItem
                 {
                     Title = inputModel.Title,
                     IsFinished = inputModel.IsFinished ? 1 : 0,
                     DeadlineDate = inputModel.DeadlineDate.ToString("yyyy/MM/dd hh:mm:ss.fff"),
                     PriorityId = inputModel.PriorityId                     
                 };
-
-                return todoItem;
             }
             
             throw new NullReferenceException("TodoItemInputModel was null");
